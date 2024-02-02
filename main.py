@@ -13,6 +13,10 @@ matches_list = []
 accepted_att = []
 unused_list = []
 rows_to_write = []
+unused_rows_to_write = []
+
+prova = open('unused_file.csv', "w", newline='')
+prova.close()
 
 files = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
 for i in range(len(files)):
@@ -27,7 +31,7 @@ for i in range(len(files)):
         file2 = files[i]
         matches = matchingClass.matchingWithComa("unused_file.csv", "documents/"+file2)
     
-    matchingClass.checkMatching(matches, matches_list, accepted_att)
+    matchingClass.checkMatching(matches, matches_list, accepted_att, unused_list)
 
     df2 = pd.read_csv(os.path.join("documents/"+file2), nrows=0)
     header2 = df2.columns.tolist()
@@ -81,18 +85,17 @@ for i in range(len(files)):
                 with open("documents/"+file2, 'r') as file_2:
                     csv_reader1 = csv.DictReader(file_1)
                     csv_reader2 = csv.DictReader(file_2)
-                    unused_rows_to_write = []
                     rowNum = 0
                     for row1, row2 in zip(csv_reader1, csv_reader2):
                         dati_attributo = []
-                        print(unused_list)
                         for att in unused_list:
                             try:
                                 dati_attributo.append(row1[att])
                             except Exception as e :
                                 dati_attributo.append(row2[att])
-                        print(dati_attributo)
                         unused_rows_to_write.append(dati_attributo)
+                        print('unused_rows_to_write')
+                        print(unused_rows_to_write)
                         if rowNum == 10:
                             break
                         rowNum+=1
@@ -100,12 +103,17 @@ for i in range(len(files)):
             with open("documents/"+file2, 'r') as file_2:
                 csv_reader = csv.DictReader(file_2)
                 rowNum=0
+                j=0
                 for rowNum, row in enumerate(csv_reader):
+                    print(j)
                     for att in accepted_att:
                         if att in row:
-                            unused_rows_to_write[rowNum].append(row[att])
-                        if rowNum == 10:
-                            break
+                            print('unused_rows_to_write')
+                            print(unused_rows_to_write)
+                            unused_rows_to_write[j].append(row[att])
+                    if rowNum == 10:
+                        break
+                    j+=1
         with open('unused_file.csv', "w", newline='') as unused_file:
             writer = csv.writer(unused_file, delimiter=',')
             writer.writerow(unused_list)

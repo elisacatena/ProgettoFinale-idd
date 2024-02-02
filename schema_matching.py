@@ -8,11 +8,12 @@ import csv
 class SchemaMatching:
 
     def matchingWithComa(self, file1, file2):
+
         # Load data using pandas
         d1_path = os.path.join(file1)
         d2_path = os.path.join(file2)
-        df1 = pd.read_csv(d1_path, nrows=10)
-        df2 = pd.read_csv(d2_path, nrows=10)
+        df1 = pd.read_csv(d1_path, nrows=5)
+        df2 = pd.read_csv(d2_path, nrows=5)
         
         # Instantiate matcher and run
         matcher = Coma(use_instances=True)
@@ -30,7 +31,7 @@ class SchemaMatching:
             
         # pp.pprint(metrics)
     
-    def checkMatching(self, matches, matches_list, accepted_att):
+    def checkMatching(self, matches, matches_list, accepted_att, unused_list):
         for ((table1, att1), (table2, att2)) in matches:
             print('\nMatch: ' + att1 + ' - ' + att2 + ' -> '+ str(matches.get(((table1, att1), (table2, att2)))))
             print('Vuoi accettare? (y/n)')
@@ -42,6 +43,12 @@ class SchemaMatching:
                     matches_list.append(name_match)
                     accepted_att.append(att1)
                     accepted_att.append(att2)
+                    if os.stat("unused_file.csv").st_size != 0:
+                        data = pd.read_csv('unused_file.csv') 
+                        if not data.empty:
+                            data.drop(att1, inplace=True, axis=1) 
+                            unused_list.remove(att1)
+
                     break
                 elif response == 'n':
                     break
