@@ -6,8 +6,8 @@ import pprint as pp
 import csv
  
 # Load data using pandas
-d1_path = os.path.join('ft.csv')
-d2_path = os.path.join('DDD-cbinsight.com.csv')
+d1_path = os.path.join('documents', 'ft.csv')
+d2_path = os.path.join('documents','DDD-cbinsight.com.csv')
 df1 = pd.read_csv(d1_path, nrows=10)
 df2 = pd.read_csv(d2_path, nrows=10)
  
@@ -42,6 +42,7 @@ for ((table1, att1), (table2, att2)) in matches:
             name_match = input()
             matches_list.append(name_match)
             accepted_att.append(att1)
+            accepted_att.append(att2)
             break
         elif response == 'n':
             break
@@ -66,16 +67,16 @@ for col2 in header2 :
 with open('schema_matching_file.csv', "w", newline='') as match_file:
     writer = csv.writer(match_file, delimiter=',')
     writer.writerow(matches_list)
-    with open('ft.csv', 'r') as file:
+    with open('documents/ft.csv', 'r') as file:
         csv_reader = csv.DictReader(file)
         rows_to_write = []
 
         for rowNum, row in enumerate(csv_reader):
-            dati_attributo = [row[att] for att in accepted_att]
+            dati_attributo = [row[att] for att in accepted_att if att in row]
             print(dati_attributo)
             rows_to_write.append(dati_attributo)
 
-            if rowNum == 11:  # Change the condition to >= 9 for 10 rows
+            if rowNum == 11:
                 break
 
         writer.writerows(rows_to_write)
@@ -84,8 +85,8 @@ with open('unused_file.csv', "w", newline='') as unused_file:
     writer = csv.writer(unused_file, delimiter=',')
     writer.writerow(unused_list)
 
-    with open('ft.csv', 'r') as file:
-        with open('DDD-cbinsight.com.csv', 'r') as file2:
+    with open('documents/ft.csv', 'r') as file:
+        with open('documents/DDD-cbinsight.com.csv', 'r') as file2:
             csv_reader = csv.DictReader(file)
             csv_reader2 = csv.DictReader(file2)
 
