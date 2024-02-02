@@ -55,7 +55,6 @@ for i in range(len(files)):
 
     with open("documents/"+file2, 'r') as file:
         csv_reader = csv.DictReader(file)
-
         j=0
         for rowNum, row in enumerate(csv_reader):
             dati_attributo = []
@@ -75,48 +74,46 @@ for i in range(len(files)):
                         print("rows_to_write[j]")
                         print(rows_to_write[j])
             j+=1
-            if rowNum == 11:
+            if rowNum == 10:
                 break
-
+        if i == 0:
+            with open("documents/"+file1, 'r') as file_1:
+                with open("documents/"+file2, 'r') as file_2:
+                    csv_reader1 = csv.DictReader(file_1)
+                    csv_reader2 = csv.DictReader(file_2)
+                    unused_rows_to_write = []
+                    rowNum = 0
+                    for row1, row2 in zip(csv_reader1, csv_reader2):
+                        dati_attributo = []
+                        print(unused_list)
+                        for att in unused_list:
+                            try:
+                                dati_attributo.append(row1[att])
+                            except Exception as e :
+                                dati_attributo.append(row2[att])
+                        print(dati_attributo)
+                        unused_rows_to_write.append(dati_attributo)
+                        if rowNum == 10:
+                            break
+                        rowNum+=1
+        else:
+            with open("documents/"+file2, 'r') as file_2:
+                csv_reader = csv.DictReader(file_2)
+                rowNum=0
+                for rowNum, row in enumerate(csv_reader):
+                    for att in accepted_att:
+                        if att in row:
+                            unused_rows_to_write[rowNum].append(row[att])
+                        if rowNum == 10:
+                            break
+        with open('unused_file.csv', "w", newline='') as unused_file:
+            writer = csv.writer(unused_file, delimiter=',')
+            writer.writerow(unused_list)
+            writer.writerows(unused_rows_to_write)
 with open("schema_matching_file.csv", 'w') as fileMatching: 
     writer = csv.writer(fileMatching, delimiter=',')
     writer.writerow(matches_list)
     writer.writerows(rows_to_write)
     
-fileMatching.close()
-
-       # writer.writerows(rows_to_write) DA METTERE DOPO
-            
-    # with open('unused_file.csv', "w", newline='') as unused_file:
-    #     writer = csv.writer(unused_file, delimiter=',')
-    #     writer.writerow(unused_list)
-
-    #     with open('documents/ft.csv', 'r') as file:
-    #         with open('documents/DDD-cbinsight.com.csv', 'r') as file2:
-    #             csv_reader = csv.DictReader(file)
-    #             csv_reader2 = csv.DictReader(file2)
-
-    #             rows_to_write = []
-    #             rowNum = 0
-    #             for row1, row2 in zip(csv_reader, csv_reader2):
-
-    #                 dati_attributo = []
-                    
-    #                 print(unused_list)
-    #                 for att in unused_list:
-    #                     try:
-    #                         dati_attributo.append(row1[att])
-    #                     except Exception as e :
-    #                         dati_attributo.append(row2[att])
-                        
-    #                 print(dati_attributo)
-    #                 rows_to_write.append(dati_attributo)
-
-    #                 rowNum +=1
-    #                 if rowNum == 11:  # Change the condition to >= 9 for 10 rows
-    #                     break
-
-    #             writer.writerows(rows_to_write)
-
-    # match_file.close()
-    # unused_file.close()
+fileMatching.close()    
+unused_file.close()
