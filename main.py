@@ -33,11 +33,11 @@ for i in range(len(files)):
     
     matchingClass.checkMatching(matches, matches_list, accepted_att, unused_list)
 
-    df2 = pd.read_csv(os.path.join("documents/"+file2), nrows=0)
+    df2 = pd.read_csv(os.path.join("documents/"+file2), nrows=0, encoding='latin-1')
     header2 = df2.columns.tolist()
 
     if i==0:
-        df1 = pd.read_csv(os.path.join("documents/"+file1), nrows=0)
+        df1 = pd.read_csv(os.path.join("documents/"+file1), nrows=0, encoding='latin-1')
         header1 = df1.columns.tolist()
         for col1 in header1 :
             if(col1 not in accepted_att) :
@@ -57,7 +57,7 @@ for i in range(len(files)):
     #PROBLEMA: SCHEMA_MATCHING_FILE E UNUSED_FILE VENGONO SOVRASCRITTI
     #CONTROLLARE SE è GIà PRESENTE UNA COLONNA IN SCHEMA MATCHING
 
-    with open("documents/"+file2, 'r') as file:
+    with open("documents/"+file2, 'r', encoding='latin-1') as file:
         csv_reader = csv.DictReader(file)
         j=0
         for rowNum, row in enumerate(csv_reader):
@@ -81,8 +81,8 @@ for i in range(len(files)):
             if rowNum == 10:
                 break
         if i == 0:
-            with open("documents/"+file1, 'r') as file_1:
-                with open("documents/"+file2, 'r') as file_2:
+            with open("documents/"+file1, 'r', encoding='latin-1') as file_1:
+                with open("documents/"+file2, 'r', encoding='latin-1') as file_2:
                     csv_reader1 = csv.DictReader(file_1)
                     csv_reader2 = csv.DictReader(file_2)
                     rowNum = 0
@@ -100,7 +100,7 @@ for i in range(len(files)):
                             break
                         rowNum+=1
         else:
-            with open("documents/"+file2, 'r') as file_2:
+            with open("documents/"+file2, 'r', encoding='latin-1') as file_2:
                 csv_reader = csv.DictReader(file_2)
                 rowNum=0
                 j=0
@@ -114,11 +114,11 @@ for i in range(len(files)):
                     if rowNum == 10:
                         break
                     j+=1
-        with open('unused_file.csv', "w", newline='') as unused_file:
+        with open('unused_file.csv', "w", encoding='latin-1', newline='') as unused_file:
             writer = csv.writer(unused_file, delimiter=',')
             writer.writerow(unused_list)
             writer.writerows(unused_rows_to_write)
-with open("schema_matching_file.csv", 'w') as fileMatching: 
+with open("schema_matching_file.csv", 'w', encoding='latin-1') as fileMatching: 
     writer = csv.writer(fileMatching, delimiter=',')
     writer.writerow(matches_list)
     writer.writerows(rows_to_write)

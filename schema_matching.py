@@ -12,8 +12,8 @@ class SchemaMatching:
         # Load data using pandas
         d1_path = os.path.join(file1)
         d2_path = os.path.join(file2)
-        df1 = pd.read_csv(d1_path, nrows=5)
-        df2 = pd.read_csv(d2_path, nrows=5)
+        df1 = pd.read_csv(d1_path, nrows=10, encoding='latin-1')
+        df2 = pd.read_csv(d2_path, nrows=10, encoding='latin-1')
         
         # Instantiate matcher and run
         matcher = Coma(use_instances=True)
@@ -44,7 +44,7 @@ class SchemaMatching:
                     accepted_att.append(att1)
                     accepted_att.append(att2)
                     if os.stat("unused_file.csv").st_size != 0:
-                        data = pd.read_csv('unused_file.csv') 
+                        data = pd.read_csv('unused_file.csv', encoding='latin-1') 
                         if not data.empty:
                             data.drop(att1, inplace=True, axis=1) 
                             unused_list.remove(att1)
