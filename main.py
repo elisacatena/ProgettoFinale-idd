@@ -19,6 +19,7 @@ prova.close()
 
 files = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
 for i in range(len(files)):
+    print(files[i])
     file1, file2 = None, None
     if i==0:
         file1 = files[i]
@@ -94,6 +95,35 @@ with open("schema_matching_file.csv", 'w', encoding='latin-1',newline='') as fil
     for att, val in zip(matches_list, rows_to_write[0]) :
         row[att]=val
     writer.writerow(row)
+
+for att in matches_list :
+    stringhe_con_sottostringa = [stringa for stringa in unused_list if att[:3].lower() in stringa.lower()]
+    if len(stringhe_con_sottostringa)>0 :
+        print('Ecco i match: ' + att + ' -> ' + str(stringhe_con_sottostringa))
+        print('Posso rimuovere? y/n')
+        response = input()
+        if response == 'y' :
+            deleted = stringhe_con_sottostringa[0]
+            if len(stringhe_con_sottostringa)>1 :
+                while True :
+                    print('Quale vuoi eliminare? (0 per uscire)')
+                    deleted = input()
+                    if deleted == '0' :
+                        break
+                    index = unused_list.index(deleted) 
+                    unused_list.remove(deleted)
+                    unused_rows_to_write[0].remove(unused_rows_to_write[0][index])
+            else:
+                index = unused_list.index(deleted) 
+                unused_list.remove(deleted)
+                unused_rows_to_write[0].remove(unused_rows_to_write[0][index])
+        else:
+            continue
+
+print('Rimangono ancora questi: ' + str(unused_list))
+
+
+
 
 fileMatching.close()    
 unused_file.close()

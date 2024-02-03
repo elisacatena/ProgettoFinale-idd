@@ -4,7 +4,7 @@ from valentine import valentine_match, valentine_metrics
 from valentine.algorithms import Coma
 import pprint as pp
 import csv
-import ConvertToCSVFileClass
+from ConvertToCSVFile import ConvertToCSVFileClass
 
 class SchemaMatching:
 
@@ -26,7 +26,7 @@ class SchemaMatching:
             df2 = pd.read_csv(d2_path, nrows=10, encoding='latin-1')
         
         # Instantiate matcher and run
-        matcher = Coma(use_instances=True)
+        matcher = Coma(use_instances=True, java_xmx='4G')
         matches = valentine_match(df1, df2, matcher)
         
         pp.pprint(matches)
