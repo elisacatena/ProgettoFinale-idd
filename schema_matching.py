@@ -29,7 +29,7 @@ class SchemaMatching:
             
         # pp.pprint(metrics)
     
-    def checkMatching(self, matches, matches_list, accepted_att, unused_list, unused_rows_to_write):
+    def checkMatching(self, matches, matches_list, accepted_att, unused_list, unused_rows_to_write, matches_dict, file1, file2, unused_dict):
         for ((table1, att1), (table2, att2)) in matches:
             print('\nMatch: ' + att1 + ' - ' + att2 + ' -> '+ str(matches.get(((table1, att1), (table2, att2)))))
             print('Vuoi accettare? (y/n)')
@@ -56,6 +56,12 @@ class SchemaMatching:
                     matches_list.append(name_match)
                     accepted_att.append(att1)
                     accepted_att.append(att2)
+                    if file1 is not None:
+                        matches_dict[name_match.lower()] = matches_dict.get(name_match.lower(), []) + [(file1, att1)]
+                    else:
+                        matches_dict[name_match.lower()] = matches_dict.get(name_match.lower(), []) + unused_dict.get(att1.lower(), [])
+                    matches_dict[name_match.lower()] = matches_dict.get(name_match.lower(), []) + [(file2, att2)]
+
                     break
                 elif response == 'n':
                     break

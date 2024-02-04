@@ -13,10 +13,11 @@ matches_list = []
 unused_list = []
 rows_to_write = []
 unused_rows_to_write = []
+matches_dict = {}
+unused_dict = {}
 
 prova = open('unused_file.csv', "w", newline='')
 prova.close()
-
 convertClass = ConvertToCSVFileClass()
 
 # files = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
@@ -40,11 +41,13 @@ for i in range(len(files2)):
     elif i==1:
         continue
     else:
+        file1 = None
         file2 = files2[i]
         print(file2)
         matches = matchingClass.matchingWithComa("unused_file.csv", "documents/"+file2, coma)
     accepted_att = []
-    matchingClass.checkMatching(matches, matches_list, accepted_att, unused_list, unused_rows_to_write)
+    
+    matchingClass.checkMatching(matches, matches_list, accepted_att, unused_list, unused_rows_to_write, matches_dict, file1, file2, unused_dict)
 
     df2 = pd.read_csv(os.path.join("documents/"+file2), nrows=1, encoding='latin-1')
     header2 = df2.columns.tolist()
@@ -58,6 +61,7 @@ for i in range(len(files2)):
         for att in header1 :
             if(att not in accepted_att) :
                 unused_list.append(att)
+                unused_dict[att.lower()] = matches_dict.get(att.lower(), []) + [(file1, att)]
             
         for att in accepted_att :
             if att in header1:
@@ -73,6 +77,7 @@ for i in range(len(files2)):
         for att2 in header2 :
             if(att2 not in accepted_att) :
                 unused_list.append(att2)
+                unused_dict[att2.lower()] = matches_dict.get(att2.lower(), []) + [(file2, att2)]
         i = 0
         for att2 in accepted_att : 
             if att2 in header2 and i%2 == 1:
@@ -134,8 +139,7 @@ for att in matches_list :
 
 print('Rimangono ancora questi: ' + str(unused_list))
 
-
-
+print(matches_dict)
 
 fileMatching.close()    
 unused_file.close()
