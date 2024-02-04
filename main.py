@@ -26,19 +26,23 @@ convertClass = ConvertToCSVFileClass()
 
 files2 = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
 
+coma = Coma(use_instances=True, java_xmx='1024m')
+
 i=0
 for i in range(len(files2)):
     file1, file2 = None, None
+    print(files2[i])
     if i==0:
         file1 = files2[i]
         file2 = files2[i+1]
-        matches = matchingClass.matchingWithComa("documents/"+file1, "documents/"+file2)
+        print(file2)
+        matches = matchingClass.matchingWithComa("documents/"+file1, "documents/"+file2, coma)
     elif i==1:
         continue
     else:
         file2 = files2[i]
-        matches = matchingClass.matchingWithComa("unused_file.csv", "documents/"+file2)
-    
+        print(file2)
+        matches = matchingClass.matchingWithComa("unused_file.csv", "documents/"+file2, coma)
     accepted_att = []
     matchingClass.checkMatching(matches, matches_list, accepted_att, unused_list, unused_rows_to_write)
 

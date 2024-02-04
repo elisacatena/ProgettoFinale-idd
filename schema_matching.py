@@ -7,7 +7,7 @@ import csv
 
 class SchemaMatching:
 
-    def matchingWithComa(self, file1, file2):
+    def matchingWithComa(self, file1, file2,matcher):
         # Load data using pandas
         d1_path = os.path.join(file1)
         d2_path = os.path.join(file2)
@@ -15,7 +15,6 @@ class SchemaMatching:
         df2 = pd.read_csv(d2_path, nrows=10, encoding='latin-1')
         
         # Instantiate matcher and run
-        matcher = Coma(use_instances=True, java_xmx='8192m')
         matches = valentine_match(df1, df2, matcher)
         
         pp.pprint(matches)
