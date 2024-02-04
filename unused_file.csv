@@ -1,12 +1,2 @@
-in 2021 ranking,in 2020 ranking,Sector,Absolute Growth Rate %,Compound Annual Growth Rate (CAGR) %,Revenue 2020 (€),Revenue 2017 (€),Number of employees 2020,Number of employees 2017,valuation,dateJoined,city,industry,investors,stage,totalRaised
-No,No,Technology,"19,152.82",477.43,"97,611,814","507,000",218,1,$8.3B,1/7/2021,San Jose,Cybersecurity,"Sutter Hill Ventures, Liberty Global Ventures, Coatue Management",Series E,$1.907B
-No,No,Health,"16,541.73",450.05,"57,318,766","344,428",177,10,$8.3B,10/6/2020,San Mateo,Fintech,"01 Advisors, Zeev Ventures, Group 11",Series F,$556M
-No,No,Financial Services,"13,133.13",409.59,"568,322,073","4,325,512",32,4,$8.1B,3/21/2018,Chicago,Health,"New Enterprise Associates, T. Rowe Associates, Lightbank",Unattributed - II,$1.345B
-No,No,Technology,"11,928.05",393.63,"316,732,986","2,652,185",800,4,$8.48B,9/11/2019,Irvine,Artificial intelligence,"Andreessen Horowitz, Founders Fund, Revolution Ventures",Series E,$2.309B
-No,No,Energy,"11,441.27",386.88,"56,109,613","486,165",365,9,$8.4B,5/29/2018,Tallinn,Auto & transportation,"Didi Chuxing, Diamler, TMT Investments",Series F,$1.971B
-No,No,Waste management & recycling,"8,624.23",343.52,"13,165,586","150,908",9,2,$140B,4/7/2017,Beijing,Artificial intelligence,"Sequoia Capital China, SIG Asia Investments, Sina Weibo, Softbank Group",Private Equity,$7.44B
-No,No,Health,"7,396.77",321.66,"18,732,563","251,668",57,12,$9B,11/24/2017,San Francisco,Mobile & telecommunications,"Nintendo, Google, Pokemon Company International, Spark Capital",Series D,$770M
-No,No,Industrial Goods,"6,635.11",306.86,"47,597,000","706,700",200,15,$9B,9/25/2018,Gurugram,Travel,"SoftBank Group, Sequoia Capital India,Lightspeed India Partners",Secondary Market,$3.114B
-No,No,Ecommerce,"6,480.53",303.73,"7,337,290","111,500",10,1,$8.7B,10/1/2020,Lerma de Villada,E-commerce & direct-to-consumer,"DST Global, SoftBank Group, Mountain Nazca",Line of Credit - II,$2.702B
-No,No,Technology,"6,287.13",299.73,"24,484,879","392,055",117,5,$8.5B,1/19/2021,Munich,Internet software & services,"Global Founders Capital, Nortzone Ventures, Picus Capital",Series E - II,$724.83M
-No,No,Food & Beverage,"5,957.94",292.74,"41,205,930","680,197",180,12,$9.2B,11/17/2020,Boston,Internet software & services,"Summit Partners, Accel, Astral Capital",Corporate Minority,$778.5M
+URL,ID,Company ID,Company Status,Registration Date,Incorporation Date,Dissolution Date,Office Address,industry,founded,founders,headquarters,key_people,services,operating_income,total_assets,number_of_employees,website,rank,country,market_value_apr_2022,name
+https://find-and-update.company-information.service.gov.uk/company/11790215,1,11790215,Active,nan,28 January 2019,nan,38SpringfieldRoad Gillingham Kent England ME71YJ,['cryptocurrency industry\xa0'],['July 2017'],"[' (""CZ"")', 'Yi He']",[],[],[],[],[],[],"['www', '.binance', '.com']",united states,$741.48 B,berkshire hathaway,$276.09 B

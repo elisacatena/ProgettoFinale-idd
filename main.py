@@ -5,10 +5,10 @@ from valentine.algorithms import Coma
 import pprint as pp
 import csv
 from schema_matching import SchemaMatching
+from convert_toCSV import ConvertToCSVFileClass
 
 matchingClass = SchemaMatching()
 
-i=0
 matches_list = []
 unused_list = []
 rows_to_write = []
@@ -17,18 +17,26 @@ unused_rows_to_write = []
 prova = open('unused_file.csv', "w", newline='')
 prova.close()
 
-files = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
-for i in range(len(files)):
-    print(files[i])
+convertClass = ConvertToCSVFileClass()
+
+# files = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
+
+# for file in files:
+#     convertClass.convertFile("documents/"+file)
+
+files2 = [nome_file for nome_file in os.listdir("documents") if os.path.isfile(os.path.join("documents", nome_file))]
+
+i=0
+for i in range(len(files2)):
     file1, file2 = None, None
     if i==0:
-        file1 = files[i]
-        file2 = files[i+1]
+        file1 = files2[i]
+        file2 = files2[i+1]
         matches = matchingClass.matchingWithComa("documents/"+file1, "documents/"+file2)
     elif i==1:
         continue
     else:
-        file2 = files[i]
+        file2 = files2[i]
         matches = matchingClass.matchingWithComa("unused_file.csv", "documents/"+file2)
     
     accepted_att = []
@@ -66,7 +74,7 @@ for i in range(len(files)):
             if att2 in header2 and i%2 == 1:
                 valori_att.append(df2[att2].values[0])
             i += 1
- 
+
         for att in unused_list :
             if att in header2:
                 dati_attributo.append(df2[att].values[0])
