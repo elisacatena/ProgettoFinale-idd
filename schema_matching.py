@@ -52,10 +52,10 @@ class SchemaMatching:
 
                     if(name_match in matches_list) :
                         print("Attributo già inserito")
-                        break
-                    matches_list.append(name_match)
-                    accepted_att.append(att1)
-                    accepted_att.append(att2)
+                    else:
+                        matches_list.append(name_match)
+                        accepted_att.append(att1)
+                        accepted_att.append(att2)
                     if file1 is not None:
                         matches_dict[name_match.lower()] = matches_dict.get(name_match.lower(), []) + [(file1, att1)]
                     else:
@@ -93,3 +93,19 @@ class SchemaMatching:
                         unused_rows_to_write[0].remove(unused_rows_to_write[0][index])
                 else:
                     continue
+
+
+    def makeSchemaMatching(self, matches_list, matches_dict):
+
+        print(matches_list)
+        df_originale = pd.read_csv('schema_matching_file.csv', encoding='latin-1')
+        for key in matches_list :
+
+            key2list = matches_dict.get(key)
+            match_column = []
+            for (file, att) in key2list :
+                df_file = pd.read_csv('documents/'+file, encoding='latin-1')
+                match_column.append(df_file[att])
+            df_originale[key] = pd.concat(match_column, ignore_index=True)
+        
+        df_originale.to_csv('schema_matching_file.csv', index=False, encoding='latin-1')
