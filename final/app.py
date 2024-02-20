@@ -9,7 +9,7 @@ import csv
 
 app = Flask(__name__, template_folder='templates')
 global files 
-files = [nome_file for nome_file in os.listdir("static/documents") if os.path.isfile(os.path.join("static/documents", nome_file))]
+files = [nome_file for nome_file in os.listdir("final/static/documents") if os.path.isfile(os.path.join("final/static/documents", nome_file))]
 global coma 
 coma = Coma(use_instances=True, java_xmx='1024m')
 global i
@@ -23,7 +23,7 @@ unused_dict = {}
 
 def updateUnusedFile():
     global unused_dict
-    with open('static/unused.csv', "w", encoding='latin-1', newline='') as unused_file:
+    with open('final/static/unused.csv', "w", encoding='latin-1', newline='') as unused_file:
         writer = csv.DictWriter(unused_file, unused_dict.keys(), delimiter=',')
         writer.writeheader() 
         row = {}
@@ -40,10 +40,10 @@ def convertFile(file) :
             except Exception as e :
                 json_data = json.load(file)
                 df = pd.json_normalize(json_data)
-            nome_senza_estensione = os.path.splitext(os.path.basename('static/jsons/'+file))[0]
-            df.to_csv('static/documents/' + nome_senza_estensione + '.csv', encoding='utf-8', index=False)
+            nome_senza_estensione = os.path.splitext(os.path.basename('final/static/jsons/'+file))[0]
+            df.to_csv('final/static/documents/' + nome_senza_estensione + '.csv', encoding='utf-8', index=False)
         else:
-            file.save('static/documents/'+file)
+            file.save('final/static/documents/'+file)
 
 
 @app.route('/')
@@ -74,14 +74,14 @@ def matching_page():
     global matchingClass
     theEnd = False
     if i==0 :
-        matches = matchingClass.matchingWithComa("static/documents/"+files[i], "static/documents/"+files[i+1], coma)
+        matches = matchingClass.matchingWithComa("final/static/documents/"+files[i], "final/static/documents/"+files[i+1], coma)
         i+=1
         print('primo')
         print(i)
     elif i>0 and i<len(files):
         if i == 1 :
             i+=1
-        matches = matchingClass.matchingWithComa("static/unused.csv", "static/documents/"+files[i], coma)
+        matches = matchingClass.matchingWithComa("final/static/unused.csv", "final/static/documents/"+files[i], coma)
         i+=1
     else :
         matches=None
@@ -95,13 +95,13 @@ def submit():
     global unused_dict
     print('secondo')
     print(i)
-    df = pd.read_csv("static/documents/"+files[i-1], encoding='latin-1')
+    df = pd.read_csv("final/static/documents/"+files[i-1], encoding='latin-1')
     header = df.columns.tolist()
     print(header)
 
     header1 = []
     if i == 1:
-        df1 = pd.read_csv("static/documents/"+files[i], encoding='latin-1')
+        df1 = pd.read_csv("final/static/documents/"+files[i], encoding='latin-1')
         header1 = df1.columns.tolist()
         print(header1)
 
@@ -171,10 +171,10 @@ def upload_file():
         files = request.files.getlist('file')
         for file in files:
             if(file.filename.endswith('.json')):
-                file.save('static/jsons/'+file.filename)
-                convertFile('static/jsons/'+file.filename)
+                file.save('final/static/jsons/'+file.filename)
+                convertFile('final/static/jsons/'+file.filename)
             else:
-                file.save('static/documents/'+file.filename)
+                file.save('final/static/documents/'+file.filename)
         return render_template('uploadFiles.html', uploaded = True)
 
 
