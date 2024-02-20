@@ -6,15 +6,26 @@ from record_linkage import RecordLinkageClass
 
 def recordLinkageFromBlocking():
 
-    recordLinkageObj = RecordLinkageClass()
-    with open('sample.json', 'r') as file:
-        data = json.load(file)
+    # Creazione dei DataFrame
+    # df1 = pd.DataFrame({'name': ['ciao'], 'A': [None], 'B': ['b']})
+    # df2 = pd.DataFrame({'name': ['ciao'], 'A': ['a'], 'B': [None]})
+    df = {'name': ['ciao', 'ciao'], 'A': [None, 'a'],'B': ['b', None]}
+    data = pd.DataFrame(df)
+    # Riempimento dei valori mancanti in df1 con quelli di df2
+
     
-    for key in data.keys():
-        print(len(data[key]))
-        if len(data[key]) > 1 :
-            dfBlock = pd.DataFrame(data[key])
-            recordLinkageObj.recordLinkageMethod(dfBlock)
+
+    recordLinkageObj = RecordLinkageClass()
+    recordLinkageObj.recordLinkageMethod(data)
+
+    # with open('sample.json', 'r') as file:
+    #     data = json.load(file)
+    
+    # for key in data.keys():
+    #     print(len(data[key]))
+    #     if len(data[key]) > 1 :
+    #         dfBlock = pd.DataFrame(data[key])
+    #         recordLinkageObj.recordLinkageMethod(dfBlock)
 
 
 def transformString(name):

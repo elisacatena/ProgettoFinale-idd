@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
+
+:root {
+  --line-border-fill: cornsilk;
+  --line-border-empty: black;
+}
+
+
+
+body, html {
+  font-family: "Muli", sans-serif;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
+  margin-top: -2%;
+  width: 100%;
+
+}
+
+form{
+    border: 4px dashed black;
+    width: 50%;
+    height: 30%;
+  }
+  form p{
+    
+    text-align: center;
+    line-height: 170px;
+    color: black;
+    font-family: Arial;
+  }
+
+  button{
+    color: black;
+    background-color: cornsilk;
+    border: none;
+    width: 45%;
+    height: 35px;
+    border-radius: 4px;
+    border: 2px solid black;
+    transition: all .2s ease;
+    outline: none;
+  }
+  button:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+  }
+  button:active{
+    border:0;
+  }
+  .btn-container{
+    display: flex;
+    margin-top: 10%;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  
+  
+  * {
+    box-sizing: border-box;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 2%;
+}
+
+ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 40px;
+}
+
+ul li .icons {
+    font-size: 25px;
+    color: black;
+    margin: 0 60px;
+}
+
+ul li .label {
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+
+ul li .step {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #d7d7c3;
+    margin: 0;
+    place-items: center;
+    color: ghostwhite;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.step::after {
+    content: "";
+    position: absolute;
+    width: 170px;
+    height: 3px;
+    background-color: #d7d7c3;
+    right: 30px;
+}
+
+.first::after {
+    width: 0;
+    height: 0;
+}
+
+ul li .step .awesome {
+    display: none;
+}
+
+ul li .step p {
+    font-size: 18px;
+    margin: 0;
+
+}
+
+ul li .active {
+    background-color: black;
+    color: cornsilk;
+}
+
+li .active::after {
+    background-color: black;
+    color: cornsilk;
+
+}
+
+ul li .active p {
+    color: cornsilk;
+}
+
+ul li .active .awesome {
+    display: flex;
+    color: cornsilk;
+}
+

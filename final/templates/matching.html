@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Matching</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='matchingPage.css') }}">
+</head>
+<body>
+    <div class="main">
+        <ul>
+            <li>
+                <i class="icons awesome fa-solid fa-user"></i>
+                <div class="step first active">
+                    <p>1</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Upload Files</p>
+            </li>
+            <li>
+                <i class="icons awesome fa-solid fa-coins"></i>
+                <div class="step second active">
+                    <p>2</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Matching</p>
+            </li>
+            <li>
+                <i class="icons awesome fa-solid fa-house"></i>
+                <div class="step third">
+                    <p>3</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Results</p>
+            </li>
+        </ul>
+    </div>   
+    <h1>Matching</h1>
+    {% if theEnd %}
+        <p>Matching terminato</p>
+    {% endif %}
+    {% if theEnd == False %}
+    <form action="/submit" method="POST">
+        {% for key, value in data_dict.items() %}
+            <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{ key[0][1] }}-{{ key[1][1] }}" onchange="showInput(this)">
+            <label for="checkbox_{{ loop.index }}">{{ key[0][1] }} - {{ key[1][1] }} : {{ value }}</label><br>
+            <input type="text" id="text_input_{{ loop.index }}" name="text_input_{{ loop.index }}" style="display: none;">
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+
+    <div class="btn-container">
+        <button type = "button" onclick="nextStepFromButton(0)">Back</button>
+        <button type = "button" onclick="nextStepFromButton(2)">Next Step</button>   
+    </div>
+
+    <script>
+
+        
+        function showInput(checkbox) {
+            var textInputId = "text_input_" + checkbox.id.split('_')[1];
+            var textInput = document.getElementById(textInputId);
+            if (checkbox.checked) {
+                textInput.style.display = "block";
+            } else {
+                textInput.style.display = "none";
+            }
+        }
+
+        const first = document.querySelector(".first");
+        const second = document.querySelector(".second");
+        const third = document.querySelector(".third");
+        const steps = [first, second, third];
+    
+        function nextStep(currentStep) {
+            steps.forEach(step => step.classList.remove("active"));
+    
+            steps.forEach((step, index) => {
+                if (index <= currentStep) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+    
+        }
+    
+        function openMatchingPage(index) {
+            if(index == 0) {
+                fetch('/get_upload_url')
+                .then(response => response.json())
+                .then(data => {
+                    // Apri la nuova pagina utilizzando l'URL restituito dal backend
+                    window.open(data.upload_url, '_self');
+                });
+
+            }
+            else {
+                
+
+            }
+        }
+    
+    
+        function nextStepFromButton(currentStep) {
+            steps.forEach(step => step.classList.remove("active"));
+    
+            steps.forEach((step, index) => {
+                if (index <= currentStep) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+            openMatchingPage(currentStep);
+    
+        }
+    
+        steps.forEach((step, index) => {
+            step.addEventListener("click", () => {
+                nextStep(index);
+            });
+        });
+    </script>
+    
+
+</body>
+</html>

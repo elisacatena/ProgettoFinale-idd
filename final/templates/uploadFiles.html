@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caricamento File</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadFiles.css') }}">
+</head>
+<body>
+    <div class="main">
+        <ul>
+            <li>
+                <i class="icons awesome fa-solid fa-user"></i>
+                <div class="step first active">
+                    <p>1</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Upload Files</p>
+            </li>
+            <li>
+                <i class="icons awesome fa-solid fa-coins"></i>
+                <div class="step second">
+                    <p>2</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Matching</p>
+            </li>
+            <li>
+                <i class="icons awesome fa-solid fa-house"></i>
+                <div class="step third">
+                    <p>3</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Results</p>
+            </li>
+        </ul>
+    </div>
+    {% if uploaded %}
+        <p>File caricati con successo</p>
+    {% endif %}
+    <h1>Carica i tuoi file qui</h1>
+    <form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
+         <input type = "file" name = "file" multiple/>
+         <p>Drag your files here or click in this area.</p>
+         <div class="btn-container">
+            <button type = "submit">Upload</button>
+            <button type = "button" onclick="nextStepFromButton(1)">Next Step</button>   
+         </div>
+      </form>  
+</body>
+<script>
+
+    const first = document.querySelector(".first");
+    const second = document.querySelector(".second");
+    const third = document.querySelector(".third");
+    const steps = [first, second, third];
+
+    function nextStep(currentStep) {
+        steps.forEach(step => step.classList.remove("active"));
+
+        steps.forEach((step, index) => {
+            if (index <= currentStep) {
+                step.classList.add("active");
+            } else {
+                step.classList.remove("active");
+            }
+        });
+
+    }
+
+    function openMatchingPage() {
+        fetch('/get_matching_url')
+                .then(response => response.json())
+                .then(data => {
+                    // Apri la nuova pagina utilizzando l'URL restituito dal backend
+                    window.open(data.matching_url, '_self');
+                });
+    }
+
+
+    function nextStepFromButton(currentStep) {
+        steps.forEach(step => step.classList.remove("active"));
+
+        steps.forEach((step, index) => {
+            if (index <= currentStep) {
+                step.classList.add("active");
+            } else {
+                step.classList.remove("active");
+            }
+        });
+        openMatchingPage();
+
+    }
+
+    steps.forEach((step, index) => {
+        step.addEventListener("click", () => {
+            nextStep(index);
+        });
+    });
+</script>
+</html>
