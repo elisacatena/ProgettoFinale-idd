@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schema Matching</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='matchingPage.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/matchingPage.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/uploadFiles.css">
+
 </head>
 <body>
     <div class="main">
@@ -37,9 +39,10 @@
     </div>   
     <h1>Matching</h1>
     {% if theEnd %}
-        <p>Matching terminato</p>
+        <p id="end"> Matching terminato</p>
     {% endif %}
     {% if theEnd == False %}
+
     <form action="/submit" method="POST">
         {% for key, value in data_dict.items() %}
             <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{ key[0][1] }}-{{ key[1][1] }}" onchange="showInput(this)">
@@ -123,7 +126,7 @@
             });
         });
     </script>
-    
-
 </body>
 </html>
+
+

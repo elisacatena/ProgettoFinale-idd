@@ -4,14 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schema Matching</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 </head>
 <body>
-    <div class = "container">
-        <h2>Schema Matching</h2>
-        <div id="button-container">
-            <button id="upload" onclick="openUploadPage()">Upload Files</button>
-            <button id="continue">Continue</button>    
+    <div class="container">
+        <div class="left-side">
+            <img src="https://static.thenounproject.com/png/225935-200.png" alt="Left Image">
+            <button id="upload" onclick="openUploadPage()">UPLOAD FILES</button>
+        </div>
+        <div class="right-side">
+            <img id="right_img" src="https://cdn-icons-png.flaticon.com/512/2741/2741422.png" alt="Right Image">
+            <button id="continue">CONTINUE</button>
+        </div>
+        <div class="center">
+            <div class="center-content">
+                <h2>Schema Matching</h2>
+            </div>
         </div>
     </div>
     

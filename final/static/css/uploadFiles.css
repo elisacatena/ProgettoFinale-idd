@@ -1,0 +1,148 @@
+/* Stile generale */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  max-width: 800px;
+  margin: 4% auto;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: inline-block;
+  width: 30%;
+  text-align: center;
+}
+
+.icons {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  margin: 0 auto;
+}
+
+.step p {
+  margin: 0;
+  font-size: 20px;
+}
+
+.active {
+  background-color: #d0596e;
+  color: #fff;
+  border-color: #d0596e;
+}
+
+.label {
+  margin-top: 10px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 5%;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column; /* Imposta la direzione della flessione su verticale */
+  align-items: center; /* Centra gli elementi lungo l'asse trasversale (asse y) */
+  margin: 20px auto;
+  width: 50%;
+}
+
+.file-select,
+.file-drag {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px; /* Aggiunge uno spazio tra i due riquadri */
+  width: 70%; /* Imposta la larghezza al 100% per occupare l'intera larghezza del container */
+  padding: 3%;
+  height: 70px; /* Imposta l'altezza desiderata per entrambi i riquadri */
+  background-color: #f0f0f0;
+}
+
+.file-drag.drag-over {
+  background-color: #f0f0f0;
+}
+
+.file-select p,
+.file-drag p {
+  margin: 0;
+}
+
+.file-select input[type="file"] {
+  display: none;
+}
+
+.file-select button,
+.file-drag button {
+  margin-top: 4%;
+  padding: 8px 20px;
+  background-color: #ea899a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-select button:hover,
+.file-drag button:hover {
+  background-color: #d0596e;
+}
+
+.file-drag {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  padding: 3%;
+}
+
+.drag-icon {
+  width: 50px; /* Imposta la larghezza desiderata per l'icona */
+  height: 50px; /* Imposta l'altezza desiderata per l'icona */
+  position: absolute;
+  top: 70%; /* Posiziona l'icona al centro verticalmente */
+  left: 50%; /* Posiziona l'icona al centro orizzontalmente */
+  transform: translate(-50%, -50%); /* Centra l'icona */
+}
+
+#btn-container {
+  text-align: center; /* Centra il contenuto orizzontalmente */
+}
+
+#btn-container button {
+  margin-top: 20px; /* Aggiunge spazio sopra il pulsante */
+  padding: 10px 20px; /* Aggiunge spazio intorno al testo del pulsante */
+  background-color: #ea899a; /* Colore di sfondo del pulsante */
+  color: #fff; /* Colore del testo */
+  border: none; /* Rimuove il bordo */
+  border-radius: 5px; /* Aggiunge un bordo arrotondato */
+  cursor: pointer; /* Cambia il cursore al passaggio sopra il pulsante */
+  font-size: 16px; /* Dimensione del testo */
+  transition: background-color 0.3s; /* Effetto di transizione per il cambio di colore di sfondo */
+}
+
+#btn-container button:hover {
+  background-color: #d0596e; /* Cambia il colore di sfondo al passaggio del mouse */
+}
+

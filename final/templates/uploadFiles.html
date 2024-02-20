@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caricamento File</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadFiles.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/uploadFiles.css">
 </head>
 <body>
     <div class="main">
@@ -39,63 +39,91 @@
         <p>File caricati con successo</p>
     {% endif %}
     <h1>Carica i tuoi file qui</h1>
-    <form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
-         <input type = "file" name = "file" multiple/>
-         <p>Drag your files here or click in this area.</p>
-         <div class="btn-container">
-            <button type = "submit">Upload</button>
-            <button type = "button" onclick="nextStepFromButton(1)">Next Step</button>   
-         </div>
-      </form>  
+    <div class="file-upload-container">
+        <div class="file-select">
+            <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" multiple/>
+                <p>Seleziona i file dalla cartella</p>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+        <div class="file-drag">
+            <img src="https://icons.veryicon.com/png/o/miscellaneous/standard-general-linear-icon/cloud-upload-14.png" alt="Icona Trascina i File" class="drag-icon">
+            <p>Trascina i file qui</p>
+        </div>
+        
+    </div>
+    <div id="btn-container">
+        <button type="button" onclick="nextStepFromButton(1)">Next Step</button>
+    </div>
+    <script>
+
+        const first = document.querySelector(".first");
+        const second = document.querySelector(".second");
+        const third = document.querySelector(".third");
+        const steps = [first, second, third];
+
+        function nextStep(currentStep) {
+            steps.forEach(step => step.classList.remove("active"));
+
+            steps.forEach((step, index) => {
+                if (index <= currentStep) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+        }
+
+        function openMatchingPage() {
+            fetch('/get_matching_url')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Apri la nuova pagina utilizzando l'URL restituito dal backend
+                        window.open(data.matching_url, '_self');
+                    });
+        }
+
+        function nextStepFromButton(currentStep) {
+            steps.forEach(step => step.classList.remove("active"));
+
+            steps.forEach((step, index) => {
+                if (index <= currentStep) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+            openMatchingPage();
+
+        }
+
+
+        steps.forEach((step, index) => {
+            step.addEventListener("click", () => {
+                nextStep(index);
+            });
+        });
+
+        // Aggiungi il supporto per il trascinamento dei file
+        const fileDrag = document.querySelector('.file-drag');
+
+        fileDrag.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileDrag.classList.add('drag-over');
+        });
+
+        fileDrag.addEventListener('dragleave', () => {
+            fileDrag.classList.remove('drag-over');
+        });
+
+        fileDrag.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            // Fai qualcosa con i file trascinati qui
+            console.log(files);
+            fileDrag.classList.remove('drag-over');
+        });
+    </script>
 </body>
-<script>
-
-    const first = document.querySelector(".first");
-    const second = document.querySelector(".second");
-    const third = document.querySelector(".third");
-    const steps = [first, second, third];
-
-    function nextStep(currentStep) {
-        steps.forEach(step => step.classList.remove("active"));
-
-        steps.forEach((step, index) => {
-            if (index <= currentStep) {
-                step.classList.add("active");
-            } else {
-                step.classList.remove("active");
-            }
-        });
-
-    }
-
-    function openMatchingPage() {
-        fetch('/get_matching_url')
-                .then(response => response.json())
-                .then(data => {
-                    // Apri la nuova pagina utilizzando l'URL restituito dal backend
-                    window.open(data.matching_url, '_self');
-                });
-    }
-
-
-    function nextStepFromButton(currentStep) {
-        steps.forEach(step => step.classList.remove("active"));
-
-        steps.forEach((step, index) => {
-            if (index <= currentStep) {
-                step.classList.add("active");
-            } else {
-                step.classList.remove("active");
-            }
-        });
-        openMatchingPage();
-
-    }
-
-    steps.forEach((step, index) => {
-        step.addEventListener("click", () => {
-            nextStep(index);
-        });
-    });
-</script>
 </html>
