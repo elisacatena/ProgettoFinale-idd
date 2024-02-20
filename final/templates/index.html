@@ -14,7 +14,7 @@
         </div>
         <div class="right-side">
             <img id="right_img" src="https://cdn-icons-png.flaticon.com/512/2741/2741422.png" alt="Right Image">
-            <button id="continue">CONTINUE</button>
+            <button id="continue" onclick="openMatchingPage()">CONTINUE</button>
         </div>
         <div class="center">
             <div class="center-content">
@@ -33,6 +33,17 @@
                     window.open(data.upload_url, '_self');
                 });
         }
+
+        function openMatchingPage() {
+            // Invia una richiesta GET al backend Python per ottenere l'URL della pagina di caricamento
+            fetch('/get_matching_url')
+                .then(response => response.json())
+                .then(data => {
+                    // Apri la nuova pagina utilizzando l'URL restituito dal backend
+                    window.open(data.matching_url, '_self');
+                });
+        }
     </script>
+
 </body>
 </html>
