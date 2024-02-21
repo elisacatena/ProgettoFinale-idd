@@ -42,6 +42,10 @@ def convertFile(file) :
                 df = pd.json_normalize(json_data)
             nome_senza_estensione = os.path.splitext(os.path.basename('final/static/jsons/'+file))[0]
             df.to_csv('final/static/documents/' + nome_senza_estensione + '.csv', encoding='utf-8', index=False)
+        elif(file.endswith('.xls')):
+            df = pd.read_excel(inputfile)
+            nome_senza_estensione = os.path.splitext(os.path.basename('final/static/xls/'+file))[0]
+            df.to_csv('final/static/documents/' + nome_senza_estensione + '.csv', encoding='utf-8', index=False)
         else:
             file.save('final/static/documents/'+file)
 
