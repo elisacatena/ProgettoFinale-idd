@@ -3,30 +3,45 @@ import pandas as pd
 import multiprocessing as mp
 import numpy as np
 from record_linkage import RecordLinkageClass
+import country_converter as coco
 
 def recordLinkageFromBlocking():
 
     # Creazione dei DataFrame
     # df1 = pd.DataFrame({'name': ['ciao'], 'A': [None], 'B': ['b']})
     # df2 = pd.DataFrame({'name': ['ciao'], 'A': ['a'], 'B': [None]})
-    df = {'name': ['ciao', 'ciao'], 'A': [None, 'a'],'B': ['b', None]}
-    data = pd.DataFrame(df)
+    # df = {'name': ['Lobra', 'Lobra','Lobra','Lobra','Apple','Apple'], 
+    #       'country': ['UK', 'UK','italy','UK','USA','USA'],
+    #       'employess': [None, None,'300','100','500','600'],
+    #       'founded': [None, '1900',None, None,None,'2010']}
+    df = {'name': ['Lobra', 'Lobra','Lobbi','Lobbi'], 
+        'country': ['United Kindom', 'UK','UK','UK'],
+        'employees': [None, None,'300',None],
+        'founded': [None, '1900',None,'1800']}
+
+    #data = pd.DataFrame(df)
+
     # Riempimento dei valori mancanti in df1 con quelli di df2
-
-    
-
     recordLinkageObj = RecordLinkageClass()
-    recordLinkageObj.recordLinkageMethod(data)
+   # recordLinkageObj.recordLinkageMethod(data)
 
     # with open('sample.json', 'r') as file:
     #     data = json.load(file)
-    
-    # for key in data.keys():
-    #     print(len(data[key]))
-    #     if len(data[key]) > 1 :
-    #         dfBlock = pd.DataFrame(data[key])
-    #         recordLinkageObj.recordLinkageMethod(dfBlock)
 
+    data = pd.read_csv('schema_matching_file.csv',encoding='latin1')
+    print("COLONNE")
+    print(data.columns.tolist())
+    blockList = []
+    for key in data.keys():
+        if len(data[key]) > 1 :
+            dfBlock = pd.DataFrame(data[key])
+            country_names = coco.convert(names=dfBlock['country'], to='ISO3')
+            country_names = list(map(lambda x: x.replace('not found', ''), country_names))
+            dfBlock['country'] = country_names
+            blockList.append(recordLinkageObj.recordLinkageMethod(dfBlock))
+
+    final_df = pd.concat(blockList, ignore_index=True)
+    final_df.to_csv("record_linkage.csv", index=False)
 
 def transformString(name):
     nameLower = name.lower()
