@@ -11,7 +11,7 @@ app = Flask(__name__, template_folder='templates')
 global files 
 files = [nome_file for nome_file in os.listdir("final/static/documents") if os.path.isfile(os.path.join("final/static/documents", nome_file))]
 global coma 
-coma = Coma(use_instances=True, java_xmx='1024m')
+coma = Coma(use_instances=True, java_xmx='4096m')
 global i
 i=0
 global matchingClass 
@@ -29,7 +29,13 @@ def updateUnusedFile():
         row = {}
         for key, value in unused_dict.items():            
             row[key]=value[0][1]
-        writer.writerow(row)         
+        writer.writerow(row)   
+
+def updateMatchingFile():    
+    global matches_dict
+    with open('final/static/schema_matching_file.csv', "w", encoding='latin-1', newline='') as matching_file:
+        writer = csv.DictWriter(matching_file, matches_dict.keys(), delimiter=',')
+        writer.writeheader() 
 
 def convertFile(file) :
     df = None
@@ -84,7 +90,7 @@ def matching_page():
         matches = matchingClass.matchingWithComa("final/static/unused.csv", "final/static/documents/"+files[i], coma)
         i+=1
     else :
-        matches=None
+        matches=unused_dict
         theEnd = True
     return render_template('matching.html', data_dict=matches, theEnd = theEnd)
 
@@ -131,7 +137,12 @@ def submit():
                 header1.remove(att_list[1])
             else:
                 print('qui')
-                matches_dict[value.lower()] = matches_dict.get(value.lower(), []) + [(files[i-1], att_list[1])]
+                row_from_unused = unused_dict.get(att_list[0], [])
+                unused_dict.pop(att_list[0], None)
+                lista = []
+                for file, row in row_from_unused :
+                    lista.append((file, att_list[0]))
+                matches_dict[value.lower()] = matches_dict.get(value.lower(), []) + [(files[i-1], att_list[1])] + lista
                 header.remove(att_list[1])
 
         for col in header :
@@ -139,10 +150,51 @@ def submit():
         for col in header1 :
             unused_dict[col] = unused_dict.get(col, []) + [(files[i], df1[col].values[0])]
         
-
+        print('unused')
         print(unused_dict)
+        print('matches')
+        print(matches_dict)
         # print(matches_dict)
         updateUnusedFile()
+
+        return redirect(url_for('matching_page'))
+    else:
+        return "Errore: richiesta non valida"
+
+@app.route('/submitUnusedForm', methods=['POST']) 
+def submitUnusedForm() :
+    global matches_dict
+    global unused_dict
+    print('secondo')
+    print(i)
+
+    if request.method == 'POST':
+        checkbox_values = {}
+
+        # Itera attraverso i dati del modulo
+        for key, value in request.form.items():
+            if key.startswith('checkbox_'):
+                checkbox_values[key] = value
+
+        for key, value in checkbox_values.items() :
+            index = key.split('_')[2]
+            att = checkbox_values.get('checkbox_' + index )
+            print('qui')
+            row_from_unused = unused_dict.get(value, [])
+            unused_dict.pop(value, None)
+            lista = []
+            for file, row in row_from_unused :
+                lista.append((file, value))
+            matches_dict[value.lower()] = matches_dict.get(value.lower(), [])+ lista
+
+        
+        print('unused')
+        print(unused_dict)
+        print('matches')
+        print(matches_dict)
+        # print(matches_dict)
+        updateUnusedFile()
+        updateMatchingFile()
 
         return redirect(url_for('matching_page'))
     else:
@@ -155,14 +207,6 @@ def button1_clicked():
     print("Bottone 1 cliccato")
     # Puoi inserire qui la logica aggiuntiva
     return render_template(url_for('uploadFiles'))
-
-@app.route('/button2_clicked', methods=['POST'])
-def button2_clicked():
-    # Logica per gestire il click del bottone 2
-    print("Bottone 2 cliccato")
-    # Puoi inserire qui la logica aggiuntiva
-
-    return '', 204  # 204 No Content
 
 
 @app.route('/uploader', methods = ['GET', 'POST'])

@@ -40,6 +40,15 @@
     <h1>Matching</h1>
     {% if theEnd %}
         <p id="end"> Matching terminato</p>
+        <p id="end"> Seleziona altri attributi da includere</p>
+        <form action="/submitUnusedForm" method="POST">
+            {% for key, value in data_dict.items() %}
+                <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{key}}">
+                <label for="checkbox_{{ loop.index }}">{{ key }}</label><br>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    
     {% endif %}
     {% if theEnd == False %}
 
