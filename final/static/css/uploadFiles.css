@@ -6,14 +6,19 @@ body {
 }
 
 .main {
-  max-width: 800px;
+  width: 60%;
   margin: 4% auto;
+  margin-bottom: 0;
+  margin-top: 2%;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 li {
@@ -62,8 +67,8 @@ h1 {
   display: flex;
   flex-direction: column; /* Imposta la direzione della flessione su verticale */
   align-items: center; /* Centra gli elementi lungo l'asse trasversale (asse y) */
-  margin: 20px auto;
-  width: 50%;
+  margin: auto;
+  width: 60%;
 }
 
 .file-select,
@@ -126,6 +131,14 @@ h1 {
   transform: translate(-50%, -50%); /* Centra l'icona */
 }
 
+
+
+
+
+
+
+
+
 #btn-container {
   text-align: center; /* Centra il contenuto orizzontalmente */
 }
@@ -144,5 +157,29 @@ h1 {
 
 #btn-container button:hover {
   background-color: #d0596e; /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+
+.upload-section {
+  text-align: center;
+  width: 100%;
+}
+
+.dashed-border {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  margin-bottom: 3%; /* Aggiunge spazio sotto il riquadro */
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashed-border p {
+  margin: 0; /* Rimuove il margine del paragrafo all'interno del riquadro */
+}
+
+.drag-section {
+  text-align: center;
+  width: 100%;
 }
 

@@ -100,7 +100,6 @@ def submit():
     global i
     global matches_dict
     global unused_dict
-    print(files[i])
     df = pd.read_csv("final/static/documents/"+files[i-1], encoding='latin-1')
     header = df.columns.tolist()
     print(header)

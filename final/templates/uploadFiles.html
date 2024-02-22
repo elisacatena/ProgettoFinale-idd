@@ -56,7 +56,40 @@
     <div id="btn-container">
         <button type="button" onclick="nextStepFromButton(1)">Next Step</button>
     </div> -->
-    {% if uploaded %}
+
+
+    <div class="file-upload-container">
+        {% if uploaded %}
+            <p>File caricati con successo</p>
+        {% endif %}
+        <h1>Carica i tuoi file qui</h1>
+        
+        <div class="upload-section">
+            <h2>Upload from folder</h2>
+            <div class="dashed-border">
+                <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="file" multiple />    
+                    <div id="btn-container">
+                        <button type="submit">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="drag-section">
+            <h2>Drag and drop</h2>
+            <div class="dashed-border">
+                <p>Drag your files here or click in this area.</p>
+            </div>
+        </div>
+        <div id="btn-container">
+            <button type="button" onclick="nextStepFromButton(1)">Next Step</button>
+        </div>
+    </div>
+        
+    
+    
+    <!-- {% if uploaded %}
         <p>File caricati con successo</p>
     {% endif %}
     <h1>Carica i tuoi file qui</h1>
@@ -67,7 +100,7 @@
             <button type = "submit">Upload</button>
             <button type = "button" onclick="nextStepFromButton(1)">Next Step</button>   
          </div>
-      </form>  
+      </form>   -->
     <script>
 
         const first = document.querySelector(".first");
