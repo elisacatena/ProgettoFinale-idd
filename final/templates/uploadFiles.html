@@ -67,21 +67,18 @@
         <div class="upload-section">
             <h2>Upload from folder</h2>
             <div class="dashed-border">
-                <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="file" multiple />    
+                <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data" id="form">
+                    <div style="height: 100%; width: 100%;">
+                        <input type="file" name="file" multiple style="height: 100%; width: 100%;"/>    
+                    </div>
                     <div id="btn-container">
                         <button type="submit">Upload</button>
                     </div>
+                    
                 </form>
             </div>
         </div>
         
-        <div class="drag-section">
-            <h2>Drag and drop</h2>
-            <div class="dashed-border">
-                <p>Drag your files here or click in this area.</p>
-            </div>
-        </div>
         <div id="btn-container">
             <button type="button" onclick="nextStepFromButton(1)">Next Step</button>
         </div>
