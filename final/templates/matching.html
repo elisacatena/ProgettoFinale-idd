@@ -53,6 +53,7 @@
     {% if theEnd == False %}
 
     <form action="/submit" method="POST">
+        {{i}}
         {% for key, value in data_dict.items() %}
             <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{ key[0][1] }}-{{ key[1][1] }}" onchange="showInput(this)">
             <label for="checkbox_{{ loop.index }}">{{ key[0][1] }} - {{ key[1][1] }} : {{ value }}</label><br>

@@ -11,7 +11,6 @@ app = Flask(__name__, template_folder='templates')
 global files 
 files = [nome_file for nome_file in os.listdir("final/static/documents") if os.path.isfile(os.path.join("final/static/documents", nome_file))]
 global coma 
-coma = Coma(use_instances=True, java_xmx='4096m')
 global i
 i=0
 global matchingClass 
@@ -54,6 +53,8 @@ def convertFile(file) :
 
 @app.route('/')
 def index():
+    global coma
+    coma = Coma(use_instances=True, java_xmx='4096m')
     return render_template('index.html')
 
 @app.route('/get_upload_url')
@@ -92,15 +93,14 @@ def matching_page():
     else :
         matches=unused_dict
         theEnd = True
-    return render_template('matching.html', data_dict=matches, theEnd = theEnd)
+    return render_template('matching.html', data_dict=matches, theEnd = theEnd, i=i)
 
 @app.route('/submit', methods=['POST'])
 def submit():
     global i
     global matches_dict
     global unused_dict
-    print('secondo')
-    print(i)
+    print(files[i])
     df = pd.read_csv("final/static/documents/"+files[i-1], encoding='latin-1')
     header = df.columns.tolist()
     print(header)
