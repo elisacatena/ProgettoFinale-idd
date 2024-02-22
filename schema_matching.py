@@ -1,3 +1,4 @@
+import json
 import os
 import pandas as pd
 from valentine import valentine_match, valentine_metrics
@@ -96,16 +97,37 @@ class SchemaMatching:
 
 
     def makeSchemaMatching(self, matches_list, matches_dict):
+        files_dict = {}
+        listaJSON = []
 
-        print(matches_list)
-        df_originale = pd.read_csv('schema_matching_file.csv', encoding='latin-1')
-        for key in matches_list :
+        with open("total_matching.json", "w") as outputJSON:
+            for match_name, files_list in matches_dict.items():
+                for (file_name, file_att) in files_list:
+                    files_dict[file_name] = files_dict.get(file_name, []) + [(match_name, file_att)]
 
-            key2list = matches_dict.get(key)
-            match_column = []
-            for (file, att) in key2list :
-                df_file = pd.read_csv('documents/'+file, encoding='latin-1')
-                match_column.append(df_file[att])
-            df_originale[key] = pd.concat(match_column, ignore_index=True)
-        
-        df_originale.to_csv('schema_matching_file.csv', index=False, encoding='latin-1')
+            for file_name, att_list in files_dict.items():
+                fileCSV = pd.read_csv('final/static/documents/'+file_name, encoding='latin-1')
+                primi_elementi, secondi_elementi = zip(*att_list)
+                for _, row in fileCSV.iterrows():
+                    json_dict = {}
+                    for matches_att in matches_list:
+                        if matches_att in primi_elementi:
+                            index = primi_elementi.index(matches_att)
+                            json_dict[matches_att] = row[secondi_elementi[index]]
+                        else:
+                            json_dict[matches_att] = ''
+                    listaJSON.append(json_dict)
+
+            json.dump(listaJSON, outputJSON, indent=4)
+
+        try:
+            df = pd.read_json("total_matching.json")
+        except Exception as e:
+            with open("total_matching.json") as json_file:
+                json_data = json.load(json_file)
+                df = pd.json_normalize(json_data)
+
+        df.to_csv('schema_matching_file.csv', encoding='latin-1', index=False)
+            
+            
+            
