@@ -15,8 +15,8 @@ class RecordLinkageClass:
 
         # compare_cl.string("industry", "industry",threshold=0.85, label="industry")
         # compare_cl.string("rank", "rank", threshold=0.85, label="rank")
-        compare_cl.string("name", "name", threshold=0.85, label="name")
-        # compare_cl.string("country", "country", threshold=0.85, label="country")
+        compare_cl.string("name", "name", threshold=0.40, label="name")
+        compare_cl.string("industry", "industry", threshold=0.85, label="industry")
 
         features = compare_cl.compute(candidate_links, dfBlock)
         matches = features[features.sum(axis=1) > 1]
@@ -24,7 +24,7 @@ class RecordLinkageClass:
         for (id1, id2) in matches.index:
             if dfBlock.loc[[id1]].isnull().sum().sum() > 0 or dfBlock.loc[[id2]].isnull().sum().sum() > 0:
                 dfBlock.loc[[id1]].fillna(dfBlock.loc[[id2]], inplace=True)
-            merged_row = pd.concat([dfBlock.loc[[id1]], dfBlock.loc[[id2]]]).groupby('name', as_index=False).first()
+            merged_row = pd.concat([dfBlock.loc[[id1]], dfBlock.loc[[id2]]]).groupby('industry', as_index=False).first()
             merged_data = pd.concat([merged_data, merged_row])
             # Rimuovi i record specificati da id1 e id2
             dfBlock.drop(index=[id1, id2], inplace=True)
