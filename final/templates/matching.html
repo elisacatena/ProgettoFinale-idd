@@ -37,23 +37,29 @@
             </li>
         </ul>
     </div>   
-    <h1>Matching</h1>
-    {% if theEnd %}
-        <p id="end"> Matching terminato</p>
+    <h1>Matching {{i}}</h1>
+    <!-- {% if i!=1 %}
+        <div>
+            {{keys}}<div>
+        </div>
+    {% endif %} -->
+    {% if checkUnused or theEnd%}
+        <!-- <p id="end"> Matching terminato</p> -->
         <p id="end"> Seleziona altri attributi da includere</p>
         <form action="/submitUnusedForm" method="POST">
             {% for key, value in data_dict.items() %}
-                <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{key}}">
+                <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{key}}" onchange="showInput(this)">
                 <label for="checkbox_{{ loop.index }}">{{ key }}</label><br>
+                <input type="text" id="text_input_{{ loop.index }}" name="text_input_{{ loop.index }}" style="display: none;">
             {% endfor %}
             <button type="submit">Submit</button>
         </form>
     
     {% endif %}
-    {% if theEnd == False %}
+    {% if theEnd == False and checkUnused == False %}
 
     <form action="/submit" method="POST">
-        {{i}}
+        
         {% for key, value in data_dict.items() %}
             <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{ key[0][1] }}-{{ key[1][1] }}" onchange="showInput(this)">
             <label for="checkbox_{{ loop.index }}">{{ key[0][1] }} - {{ key[1][1] }} : {{ value }}</label><br>

@@ -19,6 +19,8 @@ global matches_dict
 matches_dict = {}
 global unused_dict
 unused_dict = {}
+global checkUnused
+checkUnused = False
 
 def updateUnusedFile():
     global unused_dict
@@ -79,6 +81,7 @@ def matching_page():
     global files
     global coma
     global matchingClass
+    global checkUnused
     theEnd = False
     if i==0 :
         matches = matchingClass.matchingWithComa("final/static/documents/"+files[i], "final/static/documents/"+files[i+1], coma)
@@ -88,18 +91,22 @@ def matching_page():
     elif i>0 and i<len(files):
         if i == 1 :
             i+=1
-        matches = matchingClass.matchingWithComa("final/static/unused.csv", "final/static/documents/"+files[i], coma)
-        i+=1
+        if checkUnused == True:
+            matches = unused_dict
+        else:
+            matches = matchingClass.matchingWithComa("final/static/unused.csv", "final/static/documents/"+files[i], coma)
+            i+=1
     else :
         matches=unused_dict
         theEnd = True
-    return render_template('matching.html', data_dict=matches, theEnd = theEnd, i=i)
+    return render_template('matching.html', data_dict=matches, theEnd = theEnd, i=i, checkUnused=checkUnused)
 
 @app.route('/submit', methods=['POST'])
 def submit():
     global i
     global matches_dict
     global unused_dict
+    global checkUnused
     df = pd.read_csv("final/static/documents/"+files[i-1], encoding='latin-1')
     header = df.columns.tolist()
     print(header)
@@ -156,6 +163,9 @@ def submit():
         # print(matches_dict)
         updateUnusedFile()
 
+        if len(unused_dict.keys()) > 22 :
+            checkUnused = True
+        
         return redirect(url_for('matching_page'))
     else:
         return "Errore: richiesta non valida"
@@ -164,26 +174,32 @@ def submit():
 def submitUnusedForm() :
     global matches_dict
     global unused_dict
+    global checkUnused
     print('secondo')
     print(i)
 
     if request.method == 'POST':
         checkbox_values = {}
+        text_input_values = {}
+
 
         # Itera attraverso i dati del modulo
         for key, value in request.form.items():
             if key.startswith('checkbox_'):
                 checkbox_values[key] = value
+            elif key.startswith('text_input_') and value:
+                text_input_values[key] = value
 
-        for key, value in checkbox_values.items() :
+
+        for key, value in text_input_values.items() :
             index = key.split('_')[2]
             att = checkbox_values.get('checkbox_' + index )
             print('qui')
-            row_from_unused = unused_dict.get(value, [])
-            unused_dict.pop(value, None)
+            row_from_unused = unused_dict.get(att, [])
+            unused_dict.pop(att, None)
             lista = []
             for file, row in row_from_unused :
-                lista.append((file, value))
+                lista.append((file, att))
             matches_dict[value.lower()] = matches_dict.get(value.lower(), [])+ lista
 
         
@@ -192,6 +208,7 @@ def submitUnusedForm() :
         print('matches')
         print(matches_dict)
         # print(matches_dict)
+        checkUnused = False
         updateUnusedFile()
         updateMatchingFile()
 
