@@ -1,4 +1,4 @@
-,name,valuation,dateJoined,country,city,industry,investors,founded,stage,totalRaised
+rank,name,valuation,dateJoined,country,city,industry,investors,founded,stage,totalRaised
 0,Lacework,$8.3B,1/7/2021,United States,San Jose,Cybersecurity,"Sutter Hill Ventures, Liberty Global Ventures, Coatue Management",2015,Series E,$1.907B
 1,Tipalti,$8.3B,10/6/2020,United States,San Mateo,Fintech,"01 Advisors, Zeev Ventures, Group 11",2010,Series F,$556M
 2,Tempus,$8.1B,3/21/2018,United States,Chicago,Health,"New Enterprise Associates, T. Rowe Associates, Lightbank",2015,Unattributed - II,$1.345B
