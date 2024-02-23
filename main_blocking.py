@@ -27,6 +27,7 @@ def recordLinkageFromBlocking():
     recordLinkageObj = RecordLinkageClass()
 
     with open('blockingByCountry.json', 'r') as file:
+    # with open('prova.json', 'r') as file:
         data = json.load(file)
 
     blockList = []
@@ -41,6 +42,7 @@ def recordLinkageFromBlocking():
     # blockList.append(block)
     final_df = pd.concat(blockList, ignore_index=True)
     final_df.to_csv("record_linkage_country.csv", index=False)
+    # final_df.to_csv("prova.csv", index=False)
 
 def transformString(name):
     nameLower = name.lower()

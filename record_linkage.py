@@ -27,27 +27,32 @@ class RecordLinkageClass:
         # ALTRIMENTI SONO 2 COPPIE DIVERSE
 
         for (id1, id2) in matches.index:
-            if id1 in index_list:
+            print(id1,id2)
+            if id1 in index_list or id2 in index_list:
                 continue
             else:
-                merged_data = dfBlock.loc[[id1]]
                 for (i1, i2) in matches.index:
+                    if i1 in index_list or i2 in index_list:
+                        continue
                     if not i1 == id1 and not i2 == id1:
                         continue
                     else:
+                        print("else")
+                        print(i1, i2)
                         if i1 == id1:
                             first_elem = dfBlock.loc[[i1]]
                             for col in first_elem.columns:
-                                if pd.isnull(dfBlock.loc[id1][col]) and pd.notnull(dfBlock.loc[i2][col]):
-                                    dfBlock.loc[id1][col]  = dfBlock.loc[i2][col]
-
+                                # if pd.isnull(dfBlock.loc[id1][col]) and pd.notnull(dfBlock.loc[i2][col]):
+                                if dfBlock.loc[id1][col] != "" and dfBlock.loc[i2][col] == "":
+                                    dfBlock.loc[i2][col]  = dfBlock.loc[id1][col]
                         else:
                             first_elem = dfBlock.loc[[i2]]
                             for col in first_elem.columns:
-                                if pd.isnull(dfBlock.loc[id1][col]) and pd.notnull(dfBlock.loc[i1][col]):
-                                    dfBlock.loc[id1][col] = dfBlock.loc[i1][col]
+                                if dfBlock.loc[id1][col] != "" and dfBlock.loc[i1][col] == "":
+                                    dfBlock.loc[i1][col] = dfBlock.loc[id1][col]
+                dfBlock = dfBlock.drop([id1])  
                 index_list.append(id1)
-                resultBlock = pd.concat([resultBlock, dfBlock.loc[[id1]]], ignore_index=True)
+                resultBlock = pd.concat([resultBlock, dfBlock], ignore_index=True)
 
         return resultBlock
 
