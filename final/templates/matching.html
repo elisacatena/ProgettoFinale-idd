@@ -38,6 +38,24 @@
         </ul>
     </div>   
     <h1>Matching {{i}}</h1>
+    <div class="new-elements-container">
+        <h2>Matches già inseriti:</h2>
+        <ul class="keys-list">
+            {% for key in matches_dict.keys() %}
+                <li>{{ key }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- {% if matches_dict %}
+        <h2>Matches già inseriti:</h2>
+        <ul>
+            {% for key in matches_dict.keys() %}
+                <li>{{ key }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %} -->
+
     <!-- {% if i!=1 %}
         <div>
             {{keys}}<div>
@@ -57,9 +75,8 @@
     
     {% endif %}
     {% if theEnd == False and checkUnused == False %}
-
+    
     <form action="/submit" method="POST">
-        
         {% for key, value in data_dict.items() %}
             <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}" value="{{ key[0][1] }}-{{ key[1][1] }}" onchange="showInput(this)">
             <label for="checkbox_{{ loop.index }}">{{ key[0][1] }} - {{ key[1][1] }} : {{ value }}</label><br>

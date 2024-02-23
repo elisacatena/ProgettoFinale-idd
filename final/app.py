@@ -99,7 +99,7 @@ def matching_page():
     else :
         matches=unused_dict
         theEnd = True
-    return render_template('matching.html', data_dict=matches, theEnd = theEnd, i=i, checkUnused=checkUnused)
+    return render_template('matching.html', data_dict=matches, theEnd = theEnd, i=i, checkUnused=checkUnused, matches_dict=matches_dict)
 
 @app.route('/submit', methods=['POST'])
 def submit():
