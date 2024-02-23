@@ -116,6 +116,7 @@ class SchemaMatching:
                             json_dict[matches_att] = row[secondi_elementi[index]]
                         else:
                             json_dict[matches_att] = ''
+                    json_dict['outcome'] = '0'
                     listaJSON.append(json_dict)
 
             json.dump(listaJSON, outputJSON, indent=4)

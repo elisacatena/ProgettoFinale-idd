@@ -2,10 +2,13 @@ import recordlinkage
 import pandas as pd
 from recordlinkage.preprocessing import clean
 from recordlinkage.index import Full
+from stats.record_linkage_stats import recordLinkageStats
+import json
+
 
 class RecordLinkageClass:
 
-    def recordLinkageMethod(self, dfBlock):
+    def recordLinkageMethod(self, dfBlock, fileNameBlocking, chiave):
         indexer = recordlinkage.Index()   
         indexer.add(Full())     
         candidate_links = indexer.index(dfBlock)
@@ -25,8 +28,15 @@ class RecordLinkageClass:
         # !!!!!!!!!!!!!!!!!!!!!!!!!!!! CANCELLAAAAAAA !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         # VERIFICARE SE FOUNDED E' VUOTA O IN UN ARCO DI 50 ANNI -> MERGE
         # ALTRIMENTI SONO 2 COPPIE DIVERSE
+        with open(fileNameBlocking, 'r') as file:
+            data = json.load(file)
 
         for (id1, id2) in matches.index:
+            entry1 = data[chiave][id1]
+            entry2 = data[chiave][id2]
+
+            entry1['outcome'] = '1'
+            entry2['outcome'] = '1'
             print(id1,id2)
             if id1 in index_list or id2 in index_list:
                 continue
@@ -53,6 +63,11 @@ class RecordLinkageClass:
                 dfBlock = dfBlock.drop([id1])  
                 index_list.append(id1)
                 resultBlock = pd.concat([resultBlock, dfBlock], ignore_index=True)
+                
+        with open(fileNameBlocking, 'w') as file:
+            json.dump(data, file)
+        stats = recordLinkageStats()
+        stats.logisticRegressionStats(matches, candidate_links, features)
 
         return resultBlock
 
