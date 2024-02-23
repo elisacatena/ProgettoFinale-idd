@@ -122,12 +122,12 @@
         }
     
         function openMatchingPage(index) {
-            if(index == 0) {
-                fetch('/get_upload_url')
+            if(index == 2) {
+                fetch('/get_result_url')
                 .then(response => response.json())
                 .then(data => {
                     // Apri la nuova pagina utilizzando l'URL restituito dal backend
-                    window.open(data.upload_url, '_self');
+                    window.open(data.result_url, '_self');
                 });
 
             }

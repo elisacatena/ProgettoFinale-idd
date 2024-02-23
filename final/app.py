@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, jsonify, redirect, render_template, request, url_for
+from flask import Flask, jsonify, redirect, render_template, request, url_for, send_file
 import pandas as pd
 from valentine import valentine_match, valentine_metrics
 from valentine.algorithms import Coma
@@ -55,7 +55,9 @@ def convertFile(file) :
 
 @app.route('/')
 def index():
+    global i
     global coma
+    i=0
     coma = Coma(use_instances=True, java_xmx='4096m')
     return render_template('index.html')
 
@@ -71,9 +73,33 @@ def get_matching_url():
     matching_url = "/matching.html"
     return jsonify({'matching_url': matching_url})
 
+@app.route('/get_result_url')
+def get_result_url():
+    # Qui puoi generare dinamicamente l'URL per la pagina di upload o recuperarlo da qualche altra fonte
+    result_url = "/result.html"
+    return jsonify({'result_url': result_url})
+
 @app.route('/upload.html')
 def upload_page():
     return render_template('uploadFiles.html', uploaded=False)
+
+@app.route('/result.html')
+def result_page():
+    df = pd.read_csv('schema_matching_file.csv', encoding='latin-1')
+    df = df.drop(columns=['outcome'])
+    # Ottieni l'header del DataFrame
+    header = df.columns.tolist()
+
+    # Ottieni le prime 5 righe di esempio
+    sample_data = df.head(5).values.tolist()
+
+    # Passa l'header e i dati di esempio al template HTML
+    return render_template('result.html', header=header, sample_data=sample_data)
+
+@app.route('/download')
+def download():
+    # Invia il file CSV come allegato
+    return send_file('static/schema_matching_file.csv', as_attachment=True)
 
 @app.route('/matching.html')
 def matching_page():

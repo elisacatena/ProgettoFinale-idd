@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Matching</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/matchingPage.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/uploadFiles.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/result.css">
+</head>
+<body>
+    <div class="main">
+        <ul>
+            <li>
+                <i class="icons awesome fa-solid fa-user"></i>
+                <div class="step first active">
+                    <p>1</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Upload Files</p>
+            </li>
+            <li>
+                <i class="icons awesome fa-solid fa-coins"></i>
+                <div class="step second active">
+                    <p>2</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Matching</p>
+            </li>
+            <li>
+                <i class="icons awesome fa-solid fa-house"></i>
+                <div class="step third active">
+                    <p>3</p>
+                    <i class="awesome fa-solid fa-check"></i>
+                </div>
+                <p class="label">Results</p>
+            </li>
+        </ul>
+    </div>   
+    <h1>Matching Result</h1>
+    <div class="table-container">
+        <table border="1">
+            <thead>
+                <tr>
+                    {% for column in header %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in sample_data %}
+                    <tr>
+                        {% for value in row %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/download">Download CSV file</a></p>
+
+
+    
+    
+
+
+    <script>
+
+        
+        function showInput(checkbox) {
+            var textInputId = "text_input_" + checkbox.id.split('_')[1];
+            var textInput = document.getElementById(textInputId);
+            if (checkbox.checked) {
+                textInput.style.display = "block";
+            } else {
+                textInput.style.display = "none";
+            }
+        }
+
+        const first = document.querySelector(".first");
+        const second = document.querySelector(".second");
+        const third = document.querySelector(".third");
+        const steps = [first, second, third];
+    
+        function nextStep(currentStep) {
+            steps.forEach(step => step.classList.remove("active"));
+    
+            steps.forEach((step, index) => {
+                if (index <= currentStep) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+    
+        }
+    
+        function openMatchingPage(index) {
+            if(index == 0) {
+                fetch('/get_result_url')
+                .then(response => response.json())
+                .then(data => {
+                    // Apri la nuova pagina utilizzando l'URL restituito dal backend
+                    window.open(data.result_url, '_self');
+                });
+
+            }
+            else {
+                
+
+            }
+        }
+    
+    
+        function nextStepFromButton(currentStep) {
+            steps.forEach(step => step.classList.remove("active"));
+    
+            steps.forEach((step, index) => {
+                if (index <= currentStep) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+            openMatchingPage(currentStep);
+    
+        }
+    
+        steps.forEach((step, index) => {
+            step.addEventListener("click", () => {
+                nextStep(index);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
