@@ -115,3 +115,21 @@ form button[type="submit"]:hover {
 #end {
   text-align: center;
 }
+
+
+/* Stile per il contenitore dei nuovi elementi */
+.new-elements-container {
+  margin-top: 50px; /* Regola il margine superiore a piacere */
+  text-align: center; /* Allinea il testo al centro orizzontalmente */
+}
+
+/* Stile per la lista delle chiavi */
+.keys-list {
+  list-style: none; /* Rimuove i punti elenco */
+  padding: 0; /* Rimuove il padding predefinito */
+}
+
+/* Stile per gli elementi della lista */
+.keys-list li {
+  margin-bottom: 10px; /* Spazio tra gli elementi */
+}
