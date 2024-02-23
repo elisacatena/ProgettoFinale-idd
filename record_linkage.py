@@ -13,21 +13,45 @@ class RecordLinkageClass:
         # Comparison step
         compare_cl = recordlinkage.Compare()
 
-        # compare_cl.string("industry", "industry",threshold=0.85, label="industry")
-        # compare_cl.string("rank", "rank", threshold=0.85, label="rank")
         compare_cl.string("name", "name", threshold=0.40, label="name")
         compare_cl.string("industry", "industry", threshold=0.85, label="industry")
 
         features = compare_cl.compute(candidate_links, dfBlock)
         matches = features[features.sum(axis=1) > 1]
-        merged_data = pd.DataFrame()
+        resultBlock = pd.DataFrame()
+
+        index_list = []
+
+        # !!!!!!!!!!!!!!!!!!!!!!!!!!!! CANCELLAAAAAAA !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # VERIFICARE SE FOUNDED E' VUOTA O IN UN ARCO DI 50 ANNI -> MERGE
+        # ALTRIMENTI SONO 2 COPPIE DIVERSE
+
         for (id1, id2) in matches.index:
-            if dfBlock.loc[[id1]].isnull().sum().sum() > 0 or dfBlock.loc[[id2]].isnull().sum().sum() > 0:
-                dfBlock.loc[[id1]].fillna(dfBlock.loc[[id2]], inplace=True)
-            merged_row = pd.concat([dfBlock.loc[[id1]], dfBlock.loc[[id2]]]).groupby('industry', as_index=False).first()
-            merged_data = pd.concat([merged_data, merged_row])
-            # Rimuovi i record specificati da id1 e id2
-            dfBlock.drop(index=[id1, id2], inplace=True)
-        dfBlock = pd.concat([dfBlock, merged_data])
-        return dfBlock
+            if id1 in index_list:
+                continue
+            else:
+                merged_data = dfBlock.loc[[id1]]
+                for (i1, i2) in matches.index:
+                    if not i1 == id1 and not i2 == id1:
+                        continue
+                    else:
+                        if i1 == id1:
+                            first_elem = dfBlock.loc[[i1]]
+                            for col in first_elem.columns:
+                                if pd.isnull(dfBlock.loc[id1][col]) and pd.notnull(dfBlock.loc[i2][col]):
+                                    dfBlock.loc[id1][col]  = dfBlock.loc[i2][col]
+
+                        else:
+                            first_elem = dfBlock.loc[[i2]]
+                            for col in first_elem.columns:
+                                if pd.isnull(dfBlock.loc[id1][col]) and pd.notnull(dfBlock.loc[i1][col]):
+                                    dfBlock.loc[id1][col] = dfBlock.loc[i1][col]
+                index_list.append(id1)
+                resultBlock = pd.concat([resultBlock, dfBlock.loc[[id1]]], ignore_index=True)
+
+        return resultBlock
+
+
+            
+
 

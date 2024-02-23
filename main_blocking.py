@@ -16,23 +16,19 @@ def recordLinkageFromBlocking():
     #       'country': ['UK', 'UK','italy','UK','USA','USA'],
     #       'employess': [None, None,'300','100','500','600'],
     #       'founded': [None, '1900',None, None,None,'2010']}
-    # df = {'name': ['Lobra', 'Lobra','Lobbi','Lobbi'], 
-    #     'country': ['United Kindom', 'UK','UK','UK'],
-    #     'employees': [None, None,'300',None],
-    #     'founded': [None, '1900',None,'1800']}
+    # df = {'name': ['Lobra', 'Lobra','Lobbi','Lobra', 'Lobbi'], 
+    #     'industry': ['tech', 'tech', 'ia', 'health', 'ia'],
+    #     'employees': ['60', None,'300', '20', '40'],
+    #     'founded': [None, '1900',None,'1800', '2000']}
 
-    #data = pd.DataFrame(df)
+    # data = pd.DataFrame(df)
 
     # Riempimento dei valori mancanti in df1 con quelli di df2
     recordLinkageObj = RecordLinkageClass()
-   # recordLinkageObj.recordLinkageMethod(data)
 
-    with open('blockingByName.json', 'r') as file:
+    with open('blockingByCountry.json', 'r') as file:
         data = json.load(file)
 
-    # data = pd.read_csv('country_schema_matching_file.csv',encoding='latin1')
-    # print("COLONNE")
-    # print(data.columns.tolist())
     blockList = []
     for key in data:
         if len(data[key]) > 1 :
@@ -41,9 +37,10 @@ def recordLinkageFromBlocking():
             # country_names = list(map(lambda x: x.replace('not found', ''), country_names))
             # dfBlock['country'] = country_names
             blockList.append(recordLinkageObj.recordLinkageMethod(dfBlock))
-
+    # block = recordLinkageObj.recordLinkageMethod(data)
+    # blockList.append(block)
     final_df = pd.concat(blockList, ignore_index=True)
-    final_df.to_csv("record_linkage.csv", index=False)
+    final_df.to_csv("record_linkage_country.csv", index=False)
 
 def transformString(name):
     nameLower = name.lower()
