@@ -1,31 +1,31 @@
-industry,country,name,datejoined,city,rank,valuation,investors,founded,headquarter,marketcap,employees,company,website,ownership,link,revenue,sector,address,type,ceo,market_value,company_status,company_number,outcome
-,USA,NATIONAL BEVERAGE,,,"3,751",,,,,4.344 Billion USD,,,,,,,,,,,4.181 Billion USD,,,1
-,China,NINGBO JOYSON ELECTRONIC,,,"3,752",,,,,4.043 Billion USD,,,,,,,,,,,4.180 Billion USD,,,0
-,China,XINHU ZHONGBAO,,,"3,753",,,,,3.908 Billion USD,,,,,,,,,,,4.177 Billion USD,,,0
-,USA,CONMED CORPORATION,,,"3,754",,,,,3.830 Billion USD,,,,,,,,,,,4.180 Billion USD,,,0
-,UK,S4 CAPITAL,,,"3,779",,,,,6.217 Billion USD,,,,,,,,,,,4.138 Billion USD,,,1
-,USA,NATIONAL BEVERAGE,,,"3,751",,,,,4.344 Billion USD,,,,,,,,,,,4.181 Billion USD,,,1
-,USA,JAMF HOLDING CORP.,,,"3,757",,,,,4.171 Billion USD,,,,,,,,,,,4.167 Billion USD,,,0
-,China,TIBET MINERAL DEVELOPMENT CO. LTD,,,"3,773",,,,,6.144 Billion USD,,,,,,,,,,,4.145 Billion USD,,,1
-,USA,COMMUNITY BANK SYSTEM,,,"3,759",,,,,3.990 Billion USD,,,,,,,,,,,4.165 Billion USD,,,0
-,UK,S4 CAPITAL,,,"3,779",,,,,6.217 Billion USD,,,,,,,,,,,4.138 Billion USD,,,1
-,China,XIAMEN INTRETECH,,,"3,761",,,,,3.731 Billion USD,,,,,,,,,,,4.171 Billion USD,,,0
-,USA,SPECTRUM BRANDS HOLDINGS,,,"3,762",,,,,3.320 Billion USD,,,,,,,,,,,4.165 Billion USD,,,0
-,China,CCOOP GROUP CO. LTD,,,"3,763",,,,,2.351 Billion USD,,,,,,,,,,,4.174 Billion USD,,,0
-,USA,NATIONAL BEVERAGE,,,"3,751",,,,,4.344 Billion USD,,,,,,,,,,,4.181 Billion USD,,,1
-,China,TIBET MINERAL DEVELOPMENT CO. LTD,,,"3,773",,,,,6.144 Billion USD,,,,,,,,,,,4.145 Billion USD,,,1
-,UK,MONKS INVESTMENT TRUST,,,"3,766",,,,,4.757 Billion USD,,,,,,,,,,,4.159 Billion USD,,,0
-,Australia,QUBE HOLDINGS,,,"3,767",,,,,4.444 Billion USD,,,,,,,,,,,4.164 Billion USD,,,1
-,USA,SAILPOINT TECHNOLOGIES HOLDINGS,,,"3,768",,,,,4.355 Billion USD,,,,,,,,,,,4.156 Billion USD,,,0
-,UK,MAN GROUP,,,"3,769",,,,,4.300 Billion USD,,,,,,,,,,,4.159 Billion USD,,,0
-,USA,PHYSICIANS REALTY TRUST,,,"3,770",,,,,4.050 Billion USD,,,,,,,,,,,4.155 Billion USD,,,0
-,USA,NATIONAL BEVERAGE,,,"3,751",,,,,4.344 Billion USD,,,,,,,,,,,4.181 Billion USD,,,1
-,Australia,QUBE HOLDINGS,,,"3,767",,,,,4.444 Billion USD,,,,,,,,,,,4.164 Billion USD,,,1
-,China,TIBET MINERAL DEVELOPMENT CO. LTD,,,"3,773",,,,,6.144 Billion USD,,,,,,,,,,,4.145 Billion USD,,,1
-,China,QINGDAO HAIER BIOMEDICAL,,,"3,774",,,,,5.933 Billion USD,,,,,,,,,,,4.147 Billion USD,,,0
-,UK,S4 CAPITAL,,,"3,779",,,,,6.217 Billion USD,,,,,,,,,,,4.138 Billion USD,,,1
-,Italy,LEONARDO,,,"3,776",,,,,4.810 Billion USD,,,,,,,,,,,4.149 Billion USD,,,0
-,Taiwan,CHENG SHIN RUBBER IND,,,"3,777",,,,,4.323 Billion USD,,,,,,,,,,,4.148 Billion USD,,,0
-,Australia,QUBE HOLDINGS,,,"3,767",,,,,4.444 Billion USD,,,,,,,,,,,4.164 Billion USD,,,1
-,UK,S4 CAPITAL,,,"3,779",,,,,6.217 Billion USD,,,,,,,,,,,4.138 Billion USD,,,1
-,China,TIBET MINERAL DEVELOPMENT CO. LTD,,,"3,773",,,,,6.144 Billion USD,,,,,,,,,,,4.145 Billion USD,,,1
+"name1","name2","outcome"
+"NATIONAL BEVERAGE","NTINAL BEVERGE","1"
+"NINGBO JOYSON ELECTRONIC","XINHU ZHONGBAO","0"
+"XINHU ZHONGBAO","CONMED CORPORATION","0"
+"CONMED CORPORATION","XINHU ZHONGBAO","0"
+"S4 CAPITAL","S2 CAPTAL","1"
+"NATIONAL BEVERAGE","JAMF HOLDING CORP.","0"
+"JAMF HOLDING CORP.","JMF OLDING CORP.","1"
+"TIBET MINERAL DEVELOPMENT CO. LTD","TBET MINERAL DEVELPMENT CO. LTD","1"
+"COMMUNITY BANK SYSTEM","XIAMEN INTRETECH","0"
+"S4 CAPITAL","2000","1"
+"XIAMEN INTRETECH","S1 CAPITAL","0"
+"SPECTRUM BRANDS HOLDINGS","S4 CAPITAL","0"
+"CCOOP GROUP CO. LTD","SPECTRUM BRANDS HOLDINGS","0"
+"NATIONAL BEVERAGE","1980","1"
+"TIBET MINERAL DEVELOPMENT CO. LTD","QUBE HOLDINGS","0"
+"MONKS INVESTMENT TRUST","MONKS INESTMENT TRUTT","1"
+"QUBE HOLDINGS","QUBBE HOLDINGSS","1"
+"SAILPOINT TECHNOLOGIES HOLDINGS","MAN GROUP","0"
+"MAN GROUP","SAILPOINT TECHNOLOGIES HOLDINGS","0"
+"PHYSICIANS REALTY TRUST","XIAMEN INTRETECH","0"
+"NATIONAL BEVERAGE","CHENG SHIN RUBBER IND","0"
+"QUBE HOLDINGS","LEONARDO","0"
+"TIBET MINERAL DEVELOPMENT CO. LTD","LOBRA","1"
+"QINGDAO HAIER BIOMEDICAL","CHENG SHIN RUBBER IND","0"
+"LOBBI","LOBBRA","1"
+"LEONARDO","LEONARDOO","1"
+"CHENG SHIN RUBBER IND","CHNG SHIN RUBBER IND","1"
+"ACCENTURE","ACCENTUE","1"
+"FACEBOOK","FACBOOK","1"
+"APPLE CORP","APPL COOP","1"
