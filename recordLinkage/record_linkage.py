@@ -3,10 +3,11 @@ import pandas as pd
 from recordlinkage.preprocessing import clean
 from recordlinkage.index import Full
 import json
-
+import multiprocessing
 
 class RecordLinkageClass:
 
+    lock = multiprocessing.Lock()
     def recordLinkageMethod(self, dfBlock, fileNameBlocking, chiave):
         indexer = recordlinkage.Index()   
         indexer.add(Full())     
@@ -61,14 +62,18 @@ class RecordLinkageClass:
                                     dfBlock.loc[i1][col] = dfBlock.loc[id1][col]
                 dfBlock = dfBlock.drop([id1])  
                 index_list.append(id1)
-                resultBlock = pd.concat([resultBlock, dfBlock], ignore_index=True)
+        resultBlock = pd.concat([resultBlock, dfBlock], ignore_index=True)
 
-        with open(fileNameBlocking, 'w') as file:
-            json.dump(data, file, indent=4)
+        # with open('prova.json', 'w') as file:
+        #     json.dump(data, file, indent=4)
 
         # df = pd.DataFrame(data[chiave])
         # stats = recordLinkageStats()
         # stats.logisticRegressionStats(df)
+
+        with RecordLinkageClass.lock:
+            with open('prova.json', 'w') as file:
+                json.dump(data, file, indent=4)
 
         return resultBlock
 

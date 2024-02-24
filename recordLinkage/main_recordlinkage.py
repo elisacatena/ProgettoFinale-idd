@@ -6,16 +6,16 @@ from multiprocessing import Pool, cpu_count
 def recordLinkageFromBlocking(key):
     recordLinkageObj = RecordLinkageClass()
     
-    with open('blockingByCountry.json', 'r') as file:
+    with open('blockingByName.json', 'r') as file:
         data = json.load(file)
 
     if len(data[key]) > 1:
         dfBlock = pd.DataFrame(data[key])
         dfBlock = dfBlock.drop(columns=['outcome'])
-        return recordLinkageObj.recordLinkageMethod(dfBlock, 'blockingByCountry.json', key)
+        return recordLinkageObj.recordLinkageMethod(dfBlock, 'blockingByName.json', key)
 
 if __name__ == "__main__":
-    with open('blockingByCountry.json', 'r') as file:
+    with open('blockingByName.json', 'r') as file:
         data = json.load(file)
 
     keys = [key for key in data if len(data[key]) > 1]
@@ -31,5 +31,5 @@ if __name__ == "__main__":
     final_df = pd.concat(results, ignore_index=True)
     
     # Salva il dataframe finale in un file CSV
-    final_df.to_csv("recordLinkage/record_linkage_country.csv", index=False)
+    final_df.to_csv("recordLinkage/record_linkage_name.csv", index=False)
 
