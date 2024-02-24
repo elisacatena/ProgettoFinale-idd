@@ -1,5 +1,6 @@
 import os
 import csv
+import json
 
 directory = "final/static/documents"
 files = [nome_file for nome_file in os.listdir(directory) if os.path.isfile(os.path.join(directory, nome_file))]
@@ -26,6 +27,23 @@ def computeStats(file_path):
         print("Il file specificato non è stato trovato.")
         return -1.0, -1.0, -1.0, -1.0  # o altri valori che indicano un errore
 
+def countBlocks():
+    numBlocksByName, numBlocksByCountry, avgEntriesBlockByName, avgEntriesBlockByCountry = 0,0,0,0
+    numEntriesBlockByName, numEntriesBlockByCountry = 0,0
+    with open("blockingByName.json", "r") as file:
+        data = json.load(file)
+        numBlocksByName = len(data)
+        for key in data:
+            numEntriesBlockByName += len(data.get(key))
+        avgEntriesBlockByName = numEntriesBlockByName/numBlocksByName
+
+    with open("blockingByCountry.json", "r") as file:
+        data = json.load(file)
+        numBlocksByCountry = len(data)
+        for key in data:
+            numEntriesBlockByCountry += len(data.get(key))
+        avgEntriesBlockByCountry = numEntriesBlockByCountry/numBlocksByCountry
+    return numBlocksByName, numBlocksByCountry, avgEntriesBlockByName, avgEntriesBlockByCountry
 
 def main():
     print(len(files))
@@ -39,9 +57,9 @@ def main():
         tot_rows += num_rows
         tot_cols += num_cols
         tot_nulls += num_nulls  
-        if num_rows != -1 and num_cols != -1 and num_nulls != -1:
-            print(f"Il file {file_name} contiene {num_rows} righe e {num_cols} colonne.")
-            print(f"Numero di valori nulli: {num_nulls}")
+        # if num_rows != -1 and num_cols != -1 and num_nulls != -1:
+        #     print(f"Il file {file_name} contiene {num_rows} righe e {num_cols} colonne.")
+        #     print(f"Numero di valori nulli: {num_nulls}")
             # print(f"Numero di valori nulli per colonna: {num_nulls_per_column}\n")
         
     avg_rows = tot_rows/num_files
@@ -53,6 +71,17 @@ def main():
     # print(avg_cols)  
     # print("Numero medio valori nulli per file:")  
     # print(avg_nulls)        
+
+    numBlocksByName, numBlocksByCountry, avgEntriesBlockByName, avgEntriesBlockByCountry = countBlocks()
+    print("Numero di blocchi su name:")  
+    print(numBlocksByName)  
+    print("Numero medio di entries per ogni blocco su name:")  
+    print(avgEntriesBlockByName)        
+    print("Numero di blocchi su country:")  
+    print(numBlocksByCountry)  
+    print("Numero medio di entries per ogni blocco su country:")  
+    print(avgEntriesBlockByCountry)        
+
 
 
 if __name__ == "__main__":
