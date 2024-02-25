@@ -65,7 +65,7 @@ li::before {
 
 h1 {
   text-align: center;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 form {
@@ -74,6 +74,7 @@ form {
   margin: 20px auto;
   width: 50%;
   background-color: #f0f0f0;
+  margin-bottom: 0;
 }
 
 form button[type="submit"] {
@@ -119,17 +120,23 @@ form button[type="submit"]:hover {
 
 /* Stile per il contenitore dei nuovi elementi */
 .new-elements-container {
-  margin-top: 50px; /* Regola il margine superiore a piacere */
   text-align: center; /* Allinea il testo al centro orizzontalmente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Stile per la lista delle chiavi */
 .keys-list {
   list-style: none; /* Rimuove i punti elenco */
   padding: 0; /* Rimuove il padding predefinito */
+  width: 55%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* Stile per gli elementi della lista */
 .keys-list li {
   margin-bottom: 10px; /* Spazio tra gli elementi */
+  width: 20%;
 }

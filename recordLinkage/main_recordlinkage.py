@@ -1,4 +1,3 @@
-import multiprocessing
 import json
 import pandas as pd
 from multiprocessing import Manager, Pool, cpu_count, Lock

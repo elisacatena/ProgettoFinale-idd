@@ -1,8 +1,6 @@
 import os
 import pandas as pd
-from valentine import valentine_match, valentine_metrics
 from valentine.algorithms import Coma
-import pprint as pp
 import csv
 from schema_matching import SchemaMatching
 from starter.convert_toCSV import ConvertToCSVFileClass

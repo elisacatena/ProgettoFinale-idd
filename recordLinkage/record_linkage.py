@@ -1,9 +1,7 @@
 import recordlinkage
 import pandas as pd
-from recordlinkage.preprocessing import clean
 from recordlinkage.index import Full
 import json
-import multiprocessing
 
 class RecordLinkageClass:
 

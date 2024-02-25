@@ -1,9 +1,7 @@
 import os
 import pandas as pd
-from valentine import valentine_match, valentine_metrics
-from valentine.algorithms import Coma
+from valentine import valentine_match
 import pprint as pp
-import csv
 
 class SchemaMatching:
 

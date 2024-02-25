@@ -1,2 +1,2 @@
-URL,ID,Company ID,Company Status,Registration Date,Incorporation Date,Dissolution Date,Office Address,stock,sector,price,founded,founders,headquarters,key_people,services,revenue,operating_income,total_assets,number_of_employees,website
-https://find-and-update.company-information.service.gov.uk/company/11790215,1,11790215,Active,nan,28 January 2019,nan,38SpringfieldRoad Gillingham Kent England ME71YJ,AAPL,Technology,130.0,['July 2017'],"[' (""CZ"")', 'Yi He']",[],[],[],['US$'],[],[],[],"['www', '.binance', '.com']"
+Headquarter,Ownership,Foundation Year,company,valuation,datejoined,city,selectinvestors,code,rank,marketcap,sharePrice,change(1day),change(1year),categories
+"Mumbai, Maharashtra, India",Public,1968 (55 yrs old),ByteDance,$140,4/7/2017,Beijing,"Sequoia Capital China, SIG Asia Investments, Sina Weibo, Softbank Group",AAPL,1,$2.242 T,$140.94,-1.38%,-17.67%,"['Tech', 'Software', 'Dowjones', 'TechHardware', 'Electronics']"

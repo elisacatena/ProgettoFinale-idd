@@ -1,20 +1,14 @@
-import recordlinkage as rl
-import recordlinkage
 import pandas as pd
-from recordlinkage.index import Full
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
-from sklearn.model_selection import KFold, cross_val_score
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_validate, train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.metrics import classification_report
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
-from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 
 def logisticRegressionStats(df) :

@@ -2,12 +2,7 @@ import json
 import re
 import pandas as pd
 import multiprocessing as mp
-import numpy as np
 from recordLinkage.record_linkage import RecordLinkageClass
-import country_converter as coco
-from schema_matching import SchemaMatching
-
-
 
 def recordLinkageFromBlocking():
 

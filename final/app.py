@@ -2,7 +2,6 @@ import json
 import os
 from flask import Flask, jsonify, redirect, render_template, request, url_for, send_file
 import pandas as pd
-from valentine import valentine_match, valentine_metrics
 from valentine.algorithms import Coma
 from schema_matching import SchemaMatching
 import csv
