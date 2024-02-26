@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
@@ -8,14 +9,16 @@ import pandas as pd
 import re
 import json
 from sklearn.feature_extraction.text import TfidfVectorizer
+import seaborn as sns
 
-def logisticRegressionStats(df):
+def logisticRegressionStats(df, df_new):
     
     data = pd.read_csv("stats/testStats.csv", encoding="latin-1")
+    data_new = preprocessing(data)
 
-    print(df)
+    # print(df)
     # Dividi il dataset in features (X) e target (y)
-    X = df.drop(columns='outcome')  # Sostituisci con i nomi delle tue colonne testuali
+    X = df_new.drop(columns='outcome')  # Sostituisci con i nomi delle tue colonne testuali
     y = df['outcome']  # Sostituisci con il nome della tua colonna target
     print(X)
     # Converti le features testuali in una rappresentazione numerica utilizzando CountVectorizer
@@ -46,7 +49,7 @@ def logisticRegressionStats(df):
     print("Classification Report:")
     print(classification_report(y_test, predictions))
 
-    x_data = data.drop(columns='outcome')
+    x_data = data_new.drop(columns='outcome')
     x_data = tfidf_vectorizer.transform(x_data['name1'] + ' ' + x_data['name2'])
     y_data = data['outcome']  # Sostituisci con il nome della tua colonna target
     predictions_data = model.predict(x_data)
@@ -55,7 +58,11 @@ def logisticRegressionStats(df):
     # Ottieni un report dettagliato delle prestazioni del modello
     print("Classification Report:")
     print(classification_report(y_data, predictions_data))
-
+    matrix = confusion_matrix(y_data, predictions_data)
+    # print(matrix)
+    sns.heatmap(matrix.astype(int),annot = True, cmap=sns.cubehelix_palette(as_cmap=True), fmt='0.0f')
+    plt.show()
+ 
 
 
 
@@ -109,10 +116,10 @@ def preprocessing(df):
 
 
 if __name__ == "__main__":
-    with open('stats/outcome_name.json', 'r') as file:
+    with open('stats/outcome_name(6).json', 'r') as file:
         data = json.load(file)
 
     df = pd.DataFrame(data=data)
-    # df_new = preprocessing(df)
+    df_new = preprocessing(df)
     # print(df_new)
-    logisticRegressionStats(df)
+    logisticRegressionStats(df, df_new)
