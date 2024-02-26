@@ -1,124 +1,118 @@
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from nltk.stem import WordNetLemmatizer
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import re
 import json
-from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
-from sklearn.metrics import classification_report
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix
-from sklearn.preprocessing import LabelEncoder
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-def logisticRegressionStats(df) :
+def logisticRegressionStats(df):
+    
+    data = pd.read_csv("stats/testStats.csv", encoding="latin-1")
 
-    # df = pd.read_csv('stats/testStats.csv', encoding='latin-1')
-    # df = df.drop(df.columns[0], axis=1)
     print(df)
+    # Dividi il dataset in features (X) e target (y)
+    X = df.drop(columns='outcome')  # Sostituisci con i nomi delle tue colonne testuali
+    y = df['outcome']  # Sostituisci con il nome della tua colonna target
+    print(X)
+    # Converti le features testuali in una rappresentazione numerica utilizzando CountVectorizer
+    # vectorizer = CountVectorizer()
+    # X = vectorizer.fit_transform(X)
+    tfidf_vectorizer = TfidfVectorizer()
+    # X = tfidf_vectorizer.fit_transform(X)
+    X = tfidf_vectorizer.fit_transform(X['name1'] + ' ' + X['name2'])
+    print(X)
 
-    df_modificato = pd.DataFrame()
-    for col in df.columns :
+    # Dividi il dataset in insiemi di addestramento e test
+    print("Shape of X:", X.shape)
+    print("Shape of y:", y.shape)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7, random_state=42)
 
-        if col == 'outcome':
-            continue
-        df[col] = df[col].fillna('Unknown')
-        label_encoder = LabelEncoder()
-        categorie_encoded = label_encoder.fit_transform(df[col])
-        df_modificato[col] = categorie_encoded
+    # Inizializza e addestra il modello di regressione logistica
+    model = RandomForestClassifier(n_estimators=10, random_state=0)    
+    model.fit(X_train, y_train)
 
-    print(df_modificato)
-    sc_X = StandardScaler()
-    x =  pd.DataFrame(sc_X.fit_transform(df_modificato,), columns=df_modificato.columns)
+    # Effettua le previsioni sul dataset di test
+    predictions = model.predict(X_test)
 
-    df['outcome'] = df['outcome'].astype(int)
-    y = df['outcome'] # set della variabile target
-    print(x)
-    # 80% del dataset costituisce il training set 
-    x_train, x_tmp, y_train, y_tmp = train_test_split(x,y, train_size=0.7, random_state=42)
+    # Valuta le prestazioni del modello
+    accuracy = accuracy_score(y_test, predictions)
+    print("Accuracy:", accuracy)
 
-    # 50% validation set
-    # 50% test set
-    x_test, x_val, y_test, y_val = train_test_split(x_tmp, y_tmp, test_size=0.5, random_state=42)
+    # Ottieni un report dettagliato delle prestazioni del modello
+    print("Classification Report:")
+    print(classification_report(y_test, predictions))
 
-    svc_model = SVC()
-    svc_model.fit(x_train, y_train)
+    x_data = data.drop(columns='outcome')
+    x_data = tfidf_vectorizer.transform(x_data['name1'] + ' ' + x_data['name2'])
+    y_data = data['outcome']  # Sostituisci con il nome della tua colonna target
+    predictions_data = model.predict(x_data)
+    accuracy1 = accuracy_score(y_data, predictions_data)
+    print("Accuracy:", accuracy1)
+    # Ottieni un report dettagliato delle prestazioni del modello
+    print("Classification Report:")
+    print(classification_report(y_data, predictions_data))
 
-    # Tentativi con diversi iperparamentri
-    # kernel_types = ['linear', 'rbf', 'poly']
-    kernel_types = ['rbf']
 
-    # C = iperparametro che misura l’importanza degli errori 
-    # di classificazione rispetto all’ampiezza del margine
-    C_values = [10]
 
-    best_accuracy = 0
-    best_svm = None
 
-    for kernel in kernel_types:
-        for C in C_values:
-            svc_model = SVC(kernel=kernel, C=C)
-            svc_model.fit(x_train, y_train)
-            
-            # Calcoliamo l'accuracy usando il validation set
-            accuracy = metrics.accuracy_score(y_val, svc_model.predict(x_val))
-            print(f"Validation Accuracy (kernel={kernel}, C={C}): {accuracy}")
-            
-            if accuracy > best_accuracy:
-                best_accuracy = accuracy
-                best_svm = svc_model
+def preprocessing(df):
+    stemmer = WordNetLemmatizer()
+    df_new = pd.DataFrame()
+    documents = []
+    documents2 = []
 
-    print('PREDIZIONE SU TEST SET')
-    svc_pred = best_svm.predict(x_test)
-    accuracy = metrics.accuracy_score(y_test, svc_pred)
-    print("Accuracy Score =", accuracy)
-    matrix = confusion_matrix(y_test, svc_pred)
-    # print(matrix)
-    print(classification_report(y_test,svc_pred))
-    sns.heatmap(matrix.astype(int),annot = True, cmap="Blues", fmt='0.0f')
-    plt.show()
+    for index, row in df.iterrows():
+        # Rimuovi i caratteri speciali
+        document = re.sub(r'\W', ' ', str(row['name1']))
+        document2 = re.sub(r'\W', ' ', str(row['name2']))
 
-    print('PREDIZIONE SU TESTSTATS')
-    df_test = pd.read_csv('stats/testStats.csv', encoding='latin-1')
-    df_test_modificato = pd.DataFrame()
-    for col in df_test.columns :
-        if col == 'outcome':
-            continue
-        df_test[col] = df_test[col].fillna('Unknown')
-        label_encoder = LabelEncoder()
-        categorie_encoded = label_encoder.fit_transform(df_test[col])
-        df_test_modificato[col] = categorie_encoded
+        # Rimuovi tutti i singoli caratteri
+        document = re.sub(r'\s+[a-zA-Z]\s+', ' ', document)
+        document2 = re.sub(r'\s+[a-zA-Z]\s+', ' ', document2)
 
-    print(df_test_modificato)
-    sc_X = StandardScaler()
-    x =  pd.DataFrame(sc_X.fit_transform(df_test_modificato,), columns=df_test_modificato.columns)
+        # Rimuovi i singoli caratteri dall'inizio
+        document = re.sub(r'\^[a-zA-Z]\s+', ' ', document)
+        document2 = re.sub(r'\^[a-zA-Z]\s+', ' ', document2)
 
-    df_test['outcome'] = df_test['outcome'].astype(int)
-    y_test = df_test['outcome'] # set della variabile target
-    x_test = df_test_modificato
-    svc_pred = best_svm.predict(x_test)
-    accuracy = metrics.accuracy_score(y_test, svc_pred)
-    print("Accuracy Score =", accuracy)
-    matrix = confusion_matrix(y_test, svc_pred)
-    # print(matrix)
-    print(classification_report(y_test,svc_pred))
-    sns.heatmap(matrix.astype(int),annot = True, cmap="Blues", fmt='0.0f')
-    plt.show()
+        # Sostituisci più spazi con uno spazio singolo
+        document = re.sub(r'\s+', ' ', document, flags=re.I)
+        document2 = re.sub(r'\s+', ' ', document2, flags=re.I)
+
+        # Rimuovi il prefisso 'b'
+        document = re.sub(r'^b\s+', '', document)
+        document2 = re.sub(r'^b\s+', '', document2)
+
+        # Converti in minuscolo
+        document = document.lower()
+        document2 = document2.lower()
+
+        # Lemmatization
+        document = document.split()
+        document = [stemmer.lemmatize(word) for word in document]
+        document = ' '.join(document)
+        document2 = document2.split()
+        document2 = [stemmer.lemmatize(word) for word in document2]
+        document2 = ' '.join(document2)
+
+        documents.append(document)
+        documents2.append(document2)
+
+    # Add the target variable to the new DataFrame
+    df_new['name1'] = documents
+    df_new['name2'] = documents2
+    df_new['outcome'] = df['outcome']  # Add the target variable
+    return df_new
 
 
 if __name__ == "__main__":
-
-    with open('recordLinkage/outcome_test.json', 'r') as file:
+    with open('stats/outcome_name.json', 'r') as file:
         data = json.load(file)
 
-    # dizionario = {}
-    # for key in data:
-    #     for entry in data[key]:
-    #         dizionario['name'] = dizionario.get('name', []) + [entry['name']]
-    #         dizionario['founded'] = dizionario.get('founded', []) + [entry['founded']]
-    #         dizionario['outcome'] = dizionario.get('outcome', []) + [entry['outcome']]
-    df = pd.DataFrame(data = data)
-
-    # df.to_csv('stats/statsFile.csv', encoding='latin-1')
-
+    df = pd.DataFrame(data=data)
+    # df_new = preprocessing(df)
+    # print(df_new)
     logisticRegressionStats(df)
