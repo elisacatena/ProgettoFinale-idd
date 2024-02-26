@@ -13,7 +13,7 @@ class RecordLinkageClass:
         # Comparison step
         compare_cl = recordlinkage.Compare()
 
-        compare_cl.string("name", "name", threshold=0.3, label="name")
+        compare_cl.string("name", "name", threshold=0.8, label="name")
         # compare_cl.string("industry", "industry", threshold=0.85, label="industry")
 
         features = compare_cl.compute(candidate_links, dfBlock)

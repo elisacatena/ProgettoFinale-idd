@@ -1,6 +1,8 @@
-from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+import json 
+import pandas as pd
+from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
@@ -10,14 +12,111 @@ import re
 import json
 from sklearn.feature_extraction.text import TfidfVectorizer
 import seaborn as sns
+from sklearn.neural_network import MLPClassifier
 
-def logisticRegressionStats(df, df_new):
+def neuralNetworkStats(df, df_new):
     
     data = pd.read_csv("stats/testStats.csv", encoding="latin-1")
     data_new = preprocessing(data)
 
+    # Dividi il dataset in features (X) e target (y)
+    X = df_new.drop(columns='outcome')
+    y = df['outcome']
+
+    # Converti le features testuali in una rappresentazione numerica utilizzando TfidfVectorizer
+    tfidf_vectorizer = TfidfVectorizer()
+    X = tfidf_vectorizer.fit_transform(X['name1'] + ' ' + X['name2'])
+
+    # Dividi il dataset in insiemi di addestramento e test
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7, random_state=42)
+
+    # Inizializza e addestra il modello della rete neurale
+    model = MLPClassifier(hidden_layer_sizes=(5,), max_iter=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    # Effettua le previsioni sul dataset di test
+    predictions = model.predict(X_test)
+
+    # Valuta le prestazioni del modello
+    accuracy = accuracy_score(y_test, predictions)
+    print("Accuracy:", accuracy)
+
+    # Ottieni un report dettagliato delle prestazioni del modello
+    print("Classification Report:")
+    print(classification_report(y_test, predictions))
+
+    # Valuta le prestazioni del modello sui dati completi
+    x_data = data_new.drop(columns='outcome')
+    x_data = tfidf_vectorizer.transform(x_data['name1'] + ' ' + x_data['name2'])
+    predictions_data = model.predict(x_data)
+    accuracy1 = accuracy_score(data_new['outcome'], predictions_data)
+    print("Accuracy on complete data:", accuracy1)
+
+    # Ottieni un report dettagliato delle prestazioni del modello sui dati completi
+    print("Classification Report on complete data:")
+    print(classification_report(data_new['outcome'], predictions_data))
+
+    # Visualizza la matrice di confusione
+    matrix = confusion_matrix(data_new['outcome'], predictions_data)
+    sns.heatmap(matrix.astype(int), annot=True, cmap=sns.cubehelix_palette(as_cmap=True), fmt='0.0f')
+    plt.show()
+
+def linearSVMStats(df, df_new):
+    
+    data = pd.read_csv("stats/testStats.csv", encoding="latin-1")
+    data_new = preprocessing(data)
+
+    # Dividi il dataset in features (X) e target (y)
+    X = df_new.drop(columns='outcome')
+    y = df['outcome']
+
+    # Converti le features testuali in una rappresentazione numerica utilizzando TfidfVectorizer
+    tfidf_vectorizer = TfidfVectorizer()
+    X = tfidf_vectorizer.fit_transform(X['name1'] + ' ' + X['name2'])
+
+    # Dividi il dataset in insiemi di addestramento e test
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7, random_state=42)
+
+    # Inizializza e addestra il modello SVM lineare
+    model = LinearSVC(C=20)
+    model.fit(X_train, y_train)
+
+    # Effettua le previsioni sul dataset di test
+    predictions = model.predict(X_test)
+
+    # Valuta le prestazioni del modello
+    accuracy = accuracy_score(y_test, predictions)
+    print("Accuracy:", accuracy)
+
+    # Ottieni un report dettagliato delle prestazioni del modello
+    print("Classification Report:")
+    print(classification_report(y_test, predictions))
+
+    # Valuta le prestazioni del modello sui dati completi
+    x_data = data_new.drop(columns='outcome')
+    x_data = tfidf_vectorizer.transform(x_data['name1'] + ' ' + x_data['name2'])
+    predictions_data = model.predict(x_data)
+    accuracy1 = accuracy_score(data_new['outcome'], predictions_data)
+    print("Accuracy on complete data:", accuracy1)
+
+    # Ottieni un report dettagliato delle prestazioni del modello sui dati completi
+    print("Classification Report on complete data:")
+    print(classification_report(data_new['outcome'], predictions_data))
+
+    # Visualizza la matrice di confusione
+    matrix = confusion_matrix(data_new['outcome'], predictions_data)
+    sns.heatmap(matrix.astype(int), annot=True, cmap=sns.cubehelix_palette(as_cmap=True), fmt='0.0f')
+    plt.show()
+
+def randomForestStats(df, df_new):
+    
+    data = pd.read_csv("stats/testStats.csv", encoding="latin-1")
+    data_new = preprocessing(data)
+
+    print(df)
     # print(df)
     # Dividi il dataset in features (X) e target (y)
+    X = df.drop(columns='outcome')  # Sostituisci con i nomi delle tue colonne testuali
     X = df_new.drop(columns='outcome')  # Sostituisci con i nomi delle tue colonne testuali
     y = df['outcome']  # Sostituisci con il nome della tua colonna target
     print(X)
@@ -49,6 +148,7 @@ def logisticRegressionStats(df, df_new):
     print("Classification Report:")
     print(classification_report(y_test, predictions))
 
+    x_data = data.drop(columns='outcome')
     x_data = data_new.drop(columns='outcome')
     x_data = tfidf_vectorizer.transform(x_data['name1'] + ' ' + x_data['name2'])
     y_data = data['outcome']  # Sostituisci con il nome della tua colonna target
@@ -58,14 +158,12 @@ def logisticRegressionStats(df, df_new):
     # Ottieni un report dettagliato delle prestazioni del modello
     print("Classification Report:")
     print(classification_report(y_data, predictions_data))
+
     matrix = confusion_matrix(y_data, predictions_data)
     # print(matrix)
     sns.heatmap(matrix.astype(int),annot = True, cmap=sns.cubehelix_palette(as_cmap=True), fmt='0.0f')
     plt.show()
- 
-
-
-
+    
 def preprocessing(df):
     stemmer = WordNetLemmatizer()
     df_new = pd.DataFrame()
@@ -114,12 +212,14 @@ def preprocessing(df):
     df_new['outcome'] = df['outcome']  # Add the target variable
     return df_new
 
-
 if __name__ == "__main__":
-    with open('stats/outcome_name(6).json', 'r') as file:
+    with open('stats/outcome_country.json', 'r') as file:
         data = json.load(file)
 
     df = pd.DataFrame(data=data)
     df_new = preprocessing(df)
-    # print(df_new)
-    logisticRegressionStats(df, df_new)
+    # randomForestStats(df, df_new)
+    # linearSVMStats(df, df_new)
+    neuralNetworkStats(df, df_new)
+
+
